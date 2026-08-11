@@ -148,9 +148,9 @@ export const grillaSalon = [
   {
     hora: "19:10",
     lunes: "Vinyasa Yoga (Karenine)",
-    martes: "Hata Yoga (Gabriela)",
-    miercoles: "Yoga Presivos (Gabbriela)",
-    jueves: "Yoga Flow (Gabbriela)",
+    martes: "Hatha Yoga (Gabriela)",
+    miercoles: "Yoga Progresivo (Gabriela)",
+    jueves: "Yoga Flow (Gabriela)",
     viernes: "Body Combat (Cindy)",
     sabado: "-",
   },
@@ -177,24 +177,6 @@ export const grillaSalon = [
 
   <!-- General Opening Hours Grid -->
   <div>
-    <h3
-      class="text-xs uppercase tracking-[0.25em] font-medium text-text-muted mb-6 flex items-center gap-3"
-    >
-      <svg
-        class="w-4 h-4 text-accent"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-      </svg>
-      <span>Horario General de Atención</span>
-    </h3>
-
     <div class="grid md:grid-cols-3 gap-6">
       {
         horariosGenerales.map(({ dia, hora, nota, days }) => (
@@ -326,19 +308,24 @@ export const grillaSalon = [
     </div>
 
     <!-- Mobile Carousel Pagination Dots (< sm) -->
-    <div class="flex sm:hidden items-center justify-center gap-2 mt-4" id="plans-dots-container">
-      {planesData.map((plan, idx) => (
-        <button
-          type="button"
-          data-plan-dot={idx}
-          class={`plan-dot-btn transition-all duration-300 ${
-            idx === 2
-              ? "w-6 h-2 rounded-full bg-accent"
-              : "w-2 h-2 rounded-full bg-white/20 hover:bg-white/40"
-          }`}
-          aria-label={`Ver ${plan.nombre}`}
-        />
-      ))}
+    <div
+      class="flex sm:hidden items-center justify-center gap-2 mt-4"
+      id="plans-dots-container"
+    >
+      {
+        planesData.map((plan, idx) => (
+          <button
+            type="button"
+            data-plan-dot={idx}
+            class={`plan-dot-btn transition-all duration-300 ${
+              idx === 2
+                ? "w-6 h-2 rounded-full bg-accent"
+                : "w-2 h-2 rounded-full bg-white/20 hover:bg-white/40"
+            }`}
+            aria-label={`Ver ${plan.nombre}`}
+          />
+        ))
+      }
     </div>
   </div>
 
@@ -717,9 +704,9 @@ export const grillaSalon = [
         end: 20 * 60 + 10,
         days: {
           1: "Vinyasa Yoga (Karenine)",
-          2: "Hata Yoga (Gabriela)",
-          3: "Yoga Presivos (Gabbriela)",
-          4: "Yoga Flow (Gabbriela)",
+          2: "Hatha Yoga (Gabriela)",
+          3: "Yoga Progresivo (Gabriela)",
+          4: "Yoga Flow (Gabriela)",
           5: "Body Combat (Cindy)",
         },
       },
@@ -859,7 +846,7 @@ export const grillaSalon = [
       { hora: "11:10", clase: "Body Combat (Cindy)" },
       { hora: "17:00", clase: "Comercial Dance (Ana)" },
       { hora: "18:00", clase: "Zumba (Brandon)" },
-      { hora: "19:10", clase: "Hata Yoga (Gabriela)" },
+      { hora: "19:10", clase: "Hatha Yoga (Gabriela)" },
     ],
     3: [
       { hora: "09:00", clase: "Ashtanga Yoga (Marco)" },
@@ -867,7 +854,7 @@ export const grillaSalon = [
       { hora: "11:10", clase: "Core (Cindy)" },
       { hora: "16:00", clase: "Kick Boxing (Niños)" },
       { hora: "18:00", clase: "Body Combat (Cindy)" },
-      { hora: "19:10", clase: "Yoga Presivos (Gabbriela)" },
+      { hora: "19:10", clase: "Yoga Progresivo (Gabriela)" },
     ],
     4: [
       { hora: "09:00", clase: "Ashtanga Yoga (Marco)" },
@@ -875,7 +862,7 @@ export const grillaSalon = [
       { hora: "11:10", clase: "Body Combat (Cindy)" },
       { hora: "17:00", clase: "Comercial Dance (Ana)" },
       { hora: "18:00", clase: "Core (Cindy)" },
-      { hora: "19:10", clase: "Yoga Flow (Gabbriela)" },
+      { hora: "19:10", clase: "Yoga Flow (Gabriela)" },
     ],
     5: [
       { hora: "07:30", clase: "Vinyasa Yoga (Karenine)" },
@@ -918,9 +905,9 @@ export const grillaSalon = [
     mobileContainer.innerHTML = classes
       .map(
         (c) => `
-        <div class="bg-surface/90 border border-white/10 p-4 flex items-center justify-between gap-3 shadow-md hover:border-accent/40 transition-colors">
+        <div class="mobile-class-item bg-surface/90 border border-white/10 p-4 flex items-center justify-between gap-3 shadow-md hover:border-accent/40 transition-colors">
           <div class="flex items-center gap-3">
-            <span class="px-3 py-1.5 bg-accent/15 border border-accent/30 text-accent font-mono text-xs font-bold uppercase tracking-wider flex-shrink-0">
+            <span class="mobile-class-hora px-3 py-1.5 bg-accent/15 border border-accent/30 text-accent font-mono text-xs font-bold uppercase tracking-wider flex-shrink-0">
               ${c.hora}
             </span>
             <div>
@@ -954,44 +941,60 @@ export const grillaSalon = [
         const idx = Number(dot.getAttribute("data-plan-dot"));
         const card = plansCarousel.children[idx] as HTMLElement;
         if (card) {
-          const scrollOffset = card.offsetLeft - (plansCarousel.clientWidth - card.clientWidth) / 2;
-          plansCarousel.scrollTo({ left: Math.max(0, scrollOffset), behavior: "smooth" });
+          const scrollOffset =
+            card.offsetLeft -
+            (plansCarousel.clientWidth - card.clientWidth) / 2;
+          plansCarousel.scrollTo({
+            left: Math.max(0, scrollOffset),
+            behavior: "smooth",
+          });
         }
       });
     });
 
-    plansCarousel.addEventListener("scroll", () => {
-      const cards = Array.from(plansCarousel.children) as HTMLElement[];
-      const containerCenter = plansCarousel.scrollLeft + plansCarousel.clientWidth / 2;
+    plansCarousel.addEventListener(
+      "scroll",
+      () => {
+        const cards = Array.from(plansCarousel.children) as HTMLElement[];
+        const containerCenter =
+          plansCarousel.scrollLeft + plansCarousel.clientWidth / 2;
 
-      let closestIdx = 0;
-      let minDistance = Infinity;
+        let closestIdx = 0;
+        let minDistance = Infinity;
 
-      cards.forEach((card, idx) => {
-        const cardCenter = card.offsetLeft + card.clientWidth / 2;
-        const distance = Math.abs(containerCenter - cardCenter);
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestIdx = idx;
-        }
-      });
+        cards.forEach((card, idx) => {
+          const cardCenter = card.offsetLeft + card.clientWidth / 2;
+          const distance = Math.abs(containerCenter - cardCenter);
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestIdx = idx;
+          }
+        });
 
-      planDots.forEach((dot, idx) => {
-        if (idx === closestIdx) {
-          dot.className = "plan-dot-btn transition-all duration-300 w-6 h-2.5 rounded-full bg-accent cursor-pointer";
-        } else {
-          dot.className = "plan-dot-btn transition-all duration-300 w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-white/40 cursor-pointer";
-        }
-      });
-    }, { passive: true });
+        planDots.forEach((dot, idx) => {
+          if (idx === closestIdx) {
+            dot.className =
+              "plan-dot-btn transition-all duration-300 w-6 h-2.5 rounded-full bg-accent cursor-pointer";
+          } else {
+            dot.className =
+              "plan-dot-btn transition-all duration-300 w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-white/40 cursor-pointer";
+          }
+        });
+      },
+      { passive: true },
+    );
   }
 
   // Auto-scroll mobile carousel to focus on Plan Connect (Position 3) on load
   function focusPlanConnectOnMobile() {
     if (!plansCarousel || window.innerWidth >= 640) return;
-    const connectCard = plansCarousel.querySelector('[data-plan-name="PLAN CONNECT"]') as HTMLElement;
+    const connectCard = plansCarousel.querySelector(
+      '[data-plan-name="PLAN CONNECT"]',
+    ) as HTMLElement;
     if (connectCard) {
-      const scrollOffset = connectCard.offsetLeft - (plansCarousel.clientWidth - connectCard.clientWidth) / 2;
+      const scrollOffset =
+        connectCard.offsetLeft -
+        (plansCarousel.clientWidth - connectCard.clientWidth) / 2;
       plansCarousel.scrollLeft = Math.max(0, scrollOffset);
     }
   }

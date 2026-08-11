@@ -9,12 +9,12 @@ import { NOTIFICACIONES } from "./AnnouncementModal.astro";
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-18 md:h-20 flex md:grid md:grid-cols-3 items-center justify-between">
     <!-- Brand Logo (Left) -->
-    <a href="/#inicio" class="flex items-center justify-start gap-2 sm:gap-3 group focus:outline-none min-w-[130px] sm:min-w-[150px]">
+    <a href="/#inicio" class="flex items-center justify-start gap-2 sm:gap-3 group focus:outline-none min-w-[80px] sm:min-w-[150px]">
       <img
         id="header-logo"
         src="/images/logo_connect.svg"
         alt="Connect Health & Fitness"
-        class="h-7 sm:h-8 md:h-9 w-auto max-w-[140px] sm:max-w-[150px] md:max-w-[160px] object-contain transition-opacity duration-200 group-hover:opacity-80"
+        class="h-6 sm:h-8 md:h-9 w-auto max-w-[100px] sm:max-w-[150px] md:max-w-[160px] object-contain transition-opacity duration-200 group-hover:opacity-80"
         data-state="symbol"
       />
     </a>
@@ -203,9 +203,9 @@ import { NOTIFICACIONES } from "./AnnouncementModal.astro";
           id="header-user-dropdown"
           class="absolute right-0 mt-2 w-56 bg-[#181818] border border-white/15 shadow-2xl p-2 z-50 hidden backdrop-blur-xl transition-all"
         >
-          <div class="px-3 py-2 border-b border-white/10 mb-1 sm:hidden">
-            <p id="header-mobile-name" class="text-xs font-medium text-text">--</p>
-            <p id="header-mobile-plan" class="text-[10px] text-accent font-light">--</p>
+          <div class="px-3 py-2 border-b border-white/10 mb-1">
+            <p id="header-dropdown-name" class="text-xs font-medium text-text truncate">--</p>
+            <p id="header-dropdown-plan" class="text-[10px] text-accent font-light truncate">--</p>
           </div>
 
           <a
@@ -417,11 +417,11 @@ import { NOTIFICACIONES } from "./AnnouncementModal.astro";
   const userJson = localStorage.getItem("connect_user");
   const guestBtn = document.getElementById("header-guest-btn");
   const userContainer = document.getElementById("header-user-container");
+  const mobileBottomNav = document.getElementById("mobile-bottom-nav");
+
   const menuBtn = document.getElementById("header-user-menu-btn");
   const dropdown = document.getElementById("header-user-dropdown");
   const logoutBtn = document.getElementById("header-logout-btn");
-  const mobileProfileBtn = document.getElementById("mobile-nav-profile") as HTMLAnchorElement;
-  const mobileBottomNav = document.getElementById("mobile-bottom-nav");
 
   const guestNav = document.getElementById("header-guest-nav");
   const memberNav = document.getElementById("header-member-nav");
@@ -436,7 +436,6 @@ import { NOTIFICACIONES } from "./AnnouncementModal.astro";
     drawerGuestLinks?.classList.add("hidden");
     if (mobileBottomNav) mobileBottomNav.classList.remove("hidden");
 
-    // Highlight active member nav link based on current route
     const memberLinks = document.querySelectorAll(".header-member-link");
     memberLinks.forEach((link) => {
       const path = link.getAttribute("data-member-path");
@@ -450,23 +449,6 @@ import { NOTIFICACIONES } from "./AnnouncementModal.astro";
       if (isActive) {
         link.classList.remove("text-text-muted");
         link.classList.add("text-white", "font-semibold");
-      }
-    });
-
-    // Highlight active mobile bottom nav item
-    const mobileNavItems = document.querySelectorAll(".mobile-nav-item");
-    mobileNavItems.forEach((item) => {
-      const path = item.getAttribute("data-path");
-      let isActive = false;
-      if (path === "/" && (currentPath === "/" || currentPath === "")) {
-        isActive = true;
-      } else if (path && path !== "/" && currentPath.startsWith(path)) {
-        isActive = true;
-      }
-
-      if (isActive) {
-        item.classList.remove("text-text-muted");
-        item.classList.add("text-accent");
       }
     });
 
@@ -494,14 +476,18 @@ import { NOTIFICACIONES } from "./AnnouncementModal.astro";
 
       const nameEl = document.getElementById("header-user-name");
       const planEl = document.getElementById("header-user-plan");
+      const dropdownNameEl = document.getElementById("header-dropdown-name");
+      const dropdownPlanEl = document.getElementById("header-dropdown-plan");
       const photoEl = document.getElementById("header-user-photo") as HTMLImageElement;
       const initialEl = document.getElementById("header-user-initial");
 
-      const fullName = user.nombre || "Socio";
-      const planName = user.plan || "Socio Activo";
+      const fullName = user.nombre || user.name || user.nombre_completo || "Lucas Silva";
+      const planName = user.plan || "PLAN CONNECT";
 
       if (nameEl) nameEl.textContent = fullName;
       if (planEl) planEl.textContent = planName;
+      if (dropdownNameEl) dropdownNameEl.textContent = fullName;
+      if (dropdownPlanEl) dropdownPlanEl.textContent = planName;
 
       if (user.foto && photoEl && initialEl) {
         photoEl.src = user.foto;
@@ -549,18 +535,18 @@ import { NOTIFICACIONES } from "./AnnouncementModal.astro";
     window.location.href = "/";
   });
 
+  // Toggle Notifications dropdown menu
+  const notifBtn = document.getElementById("notif-bell-btn");
+  const notifDropdown = document.getElementById("notif-dropdown");
+  const notifBadge = document.getElementById("notif-badge");
+  const markAllBtn = document.getElementById("mark-all-read-btn");
+
   // Toggle User dropdown menu
   menuBtn?.addEventListener("click", (e) => {
     e.stopPropagation();
     notifDropdown?.classList.add("hidden");
     dropdown?.classList.toggle("hidden");
   });
-
-  // Toggle Notifications dropdown menu
-  const notifBtn = document.getElementById("notif-bell-btn");
-  const notifDropdown = document.getElementById("notif-dropdown");
-  const notifBadge = document.getElementById("notif-badge");
-  const markAllBtn = document.getElementById("mark-all-read-btn");
 
   notifBtn?.addEventListener("click", (e) => {
     e.stopPropagation();

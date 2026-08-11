@@ -94,6 +94,9 @@ const DEMO_POSTS: GymPost[] = [
   },
 ];
 
+import fs from "node:fs";
+import path from "node:path";
+
 export function usesLiveFacebook(): boolean {
   return Boolean(FACEBOOK_PAGE_ID && FACEBOOK_ACCESS_TOKEN);
 }
@@ -105,9 +108,6 @@ export async function getStories(): Promise<GymStory[]> {
   }
   return downloaded;
 }
-
-import fs from "node:fs";
-import path from "node:path";
 
 export async function getDownloadedStories(): Promise<GymStory[]> {
   try {
@@ -146,33 +146,38 @@ export async function getPosts(): Promise<GymPost[]> {
     return DEMO_POSTS;
   }
 
-  const res = await fetch(
-    `https://graph.facebook.com/v21.0/${FACEBOOK_PAGE_ID}/posts` +
-      `?fields=message,created_time,permalink_url,full_picture` +
-      `&limit=6&access_token=${FACEBOOK_ACCESS_TOKEN}`
-  );
+  try {
+    const res = await fetch(
+      `https://graph.facebook.com/v21.0/${FACEBOOK_PAGE_ID}/posts` +
+        `?fields=message,created_time,permalink_url,full_picture` +
+        `&limit=6&access_token=${FACEBOOK_ACCESS_TOKEN}`
+    );
 
-  if (!res.ok) {
-    const err = await res.json().catch(() => null);
-    console.error("[facebook] getPosts failed", err);
+    if (!res.ok) {
+      const err = await res.json().catch(() => null);
+      console.error("[facebook] getPosts failed", err);
+      return DEMO_POSTS;
+    }
+
+    const data = (await res.json()) as { data: Array<{
+      id: string;
+      message?: string;
+      created_time: string;
+      permalink_url?: string;
+      full_picture?: string;
+    }> };
+
+    return data.data
+      .filter((p) => p.message || p.full_picture)
+      .map((p) => ({
+        id: p.id,
+        message: p.message ?? "",
+        image: p.full_picture,
+        created_time: p.created_time,
+        permalink_url: p.permalink_url,
+      }));
+  } catch (err) {
+    console.error("[facebook] getPosts network error", err);
     return DEMO_POSTS;
   }
-
-  const data = (await res.json()) as { data: Array<{
-    id: string;
-    message?: string;
-    created_time: string;
-    permalink_url?: string;
-    full_picture?: string;
-  }> };
-
-  return data.data
-    .filter((p) => p.message || p.full_picture)
-    .map((p) => ({
-      id: p.id,
-      message: p.message ?? "",
-      image: p.full_picture,
-      created_time: p.created_time,
-      permalink_url: p.permalink_url,
-    }));
 }
