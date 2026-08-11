@@ -1,6 +1,15 @@
 const KEY = "connect_seen_stories";
 
+function storageAvailable(): boolean {
+  try {
+    return typeof localStorage !== "undefined";
+  } catch {
+    return false;
+  }
+}
+
 export function getSeenStories(): string[] {
+  if (!storageAvailable()) return [];
   try {
     const raw = localStorage.getItem(KEY);
     return raw ? (JSON.parse(raw) as string[]) : [];
@@ -10,7 +19,7 @@ export function getSeenStories(): string[] {
 }
 
 export function markStorySeen(id: string | null | undefined): void {
-  if (!id) return;
+  if (!id || !storageAvailable()) return;
   const seen = getSeenStories();
   if (seen.includes(id)) return;
   seen.push(id);
@@ -20,6 +29,6 @@ export function markStorySeen(id: string | null | undefined): void {
 }
 
 export function isStorySeen(id: string | null | undefined): boolean {
-  if (!id) return false;
+  if (!id || !storageAvailable()) return false;
   return getSeenStories().includes(id);
 }

@@ -1,6 +1,5 @@
 ---
-import { formatRelativeDate } from "../lib/dates";
-import { getPosts, usesLiveFacebook, type GymPost } from "../lib/facebook";
+import { getPosts, usesLiveFacebook } from "../lib/facebook";
 import PostCard from "./PostCard.astro";
 
 const posts = await getPosts();

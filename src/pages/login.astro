@@ -102,7 +102,7 @@ import Layout from "../layouts/Layout.astro";
 
   // Auto redirect if already logged in
   if (localStorage.getItem("connect_user")) {
-    window.location.href = "/perfil";
+    window.location.href = "/";
   }
 
   form.addEventListener("submit", async (e) => {
@@ -130,9 +130,9 @@ import Layout from "../layouts/Layout.astro";
         return;
       }
 
-      // Store session and redirect to profile page
+      // Store session and redirect to home (member dashboard)
       localStorage.setItem("connect_user", JSON.stringify(data));
-      window.location.href = "/perfil";
+      window.location.href = "/";
     } catch {
       errorEl.textContent = "Error de conexión con el servidor. Intenta de nuevo.";
       errorEl.classList.remove("hidden");

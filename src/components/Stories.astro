@@ -109,7 +109,7 @@ const live = usesLiveFacebook();
   items.forEach((btn) => {
     btn.addEventListener("click", () => {
       const ordered = Array.from(container ? container.children : items) as HTMLElement[];
-      const startIdx = Math.max(0, ordered.indexOf(btn));
+      const startIdx = Math.max(0, ordered.indexOf(btn as HTMLElement));
       const stories = ordered.map((b) => ({
         video: b.getAttribute("data-video") || null,
         imagen: b.getAttribute("data-imagen") || null,
