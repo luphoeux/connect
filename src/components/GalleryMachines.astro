@@ -1,0 +1,165 @@
+---
+// Componente de Galería de Instalaciones y Máquinas (Carrusel Interactivo en Móvil / Grid en Desktop)
+export const imagenesGaleria = [
+  {
+    id: 1,
+    categoria: "musculacion",
+    categoriaNombre: "Musculación",
+    titulo: "Zona de Pesas & Fuerza",
+    descripcion: "Equipamiento de alta gama para entrenamiento de fuerza y sobrecarga progresiva.",
+    imagen: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=800",
+  },
+  {
+    id: 2,
+    categoria: "cardio",
+    categoriaNombre: "Cardiovascular",
+    titulo: "Área de Cardio de Última Generación",
+    descripcion: "Caminadoras, elípticas y escaladoras con pantallas interactivas y monitoreo de ritmo.",
+    imagen: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&q=80&w=800",
+  },
+  {
+    id: 3,
+    categoria: "salones",
+    categoriaNombre: "Salones Dirigidos",
+    titulo: "Salón Connect",
+    descripcion: "Espacio amplio con piso técnico acústico para clases de Pilates, Body Combat y Yoga.",
+    imagen: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80&w=800",
+  },
+  {
+    id: 4,
+    categoria: "salones",
+    categoriaNombre: "Indoor Cycling",
+    titulo: "Sala de Spinning & Rhythm",
+    descripcion: "Bicicletas de precisión con sistema de luces inmersivo y audio de alta fidelidad.",
+    imagen: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=800",
+  },
+  {
+    id: 5,
+    categoria: "musculacion",
+    categoriaNombre: "Funcional & HIIT",
+    titulo: "Zona de Entrenamiento Funcional",
+    descripcion: "Racks, trineos, kettebells y césped sintético para acondicionamiento atlético.",
+    imagen: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&q=80&w=800",
+  },
+  {
+    id: 6,
+    categoria: "instalaciones",
+    categoriaNombre: "Instalaciones",
+    titulo: "Vestuarios & Lockers Premium",
+    descripcion: "Duchas calientes, lockers de seguridad y área de descanso equipada.",
+    imagen: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&q=80&w=800",
+  },
+];
+---
+
+<section id="galeria" class="py-24 px-4 sm:px-6 max-w-7xl mx-auto">
+  <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+    <div class="inline-flex items-center gap-2 px-3.5 py-1 bg-accent/10 border border-accent/30 text-accent text-[10px] uppercase tracking-[0.25em] font-medium mb-3">
+      <span>Infraestructura Premium</span>
+    </div>
+    <h2 class="text-3xl sm:text-4xl font-light tracking-[0.15em] uppercase text-text mb-4">
+      Nuestras Instalaciones &amp; Equipamiento
+    </h2>
+    <p class="text-text-muted text-sm sm:text-base font-light leading-relaxed">
+      Diseñado para brindarte una experiencia de entrenamiento cómoda, motivadora y con maquinaria de nivel internacional.
+    </p>
+  </div>
+
+  <!-- Gallery Container: Horizontal Touch-Swipe Carousel on Mobile (< sm) / 3-Col Grid on Desktop (>= sm) -->
+  <div class="relative">
+    <div
+      id="gallery-carousel-track"
+      class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 scrollbar-none sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-6 sm:overflow-visible sm:pb-0"
+    >
+      {imagenesGaleria.map((item) => (
+        <div
+          class="gallery-item flex-shrink-0 w-[84vw] sm:w-auto snap-center group relative bg-surface/90 border border-white/10 overflow-hidden shadow-xl transition-all duration-500 hover:border-accent/40"
+          data-category={item.categoria}
+        >
+          <div class="relative aspect-[4/3] w-full overflow-hidden bg-bg">
+            <img
+              src={item.imagen}
+              alt={item.titulo}
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+            
+            <span class="absolute top-4 left-4 z-10 px-2.5 py-1 bg-black/70 backdrop-blur-md text-[10px] uppercase tracking-wider text-accent border border-accent/30 font-medium">
+              {item.categoriaNombre}
+            </span>
+          </div>
+
+          <div class="p-6 space-y-2 relative z-10">
+            <h3 class="text-lg font-light tracking-[0.08em] text-text group-hover:text-accent transition-colors">
+              {item.titulo}
+            </h3>
+            <p class="text-xs text-text-muted font-light leading-relaxed">
+              {item.descripcion}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Mobile Carousel Pagination Dots (< sm) -->
+    <div class="flex sm:hidden items-center justify-center gap-2 mt-4" id="gallery-dots-container">
+      {imagenesGaleria.map((_, idx) => (
+        <button
+          type="button"
+          data-gallery-dot={idx}
+          class={`gallery-dot-btn transition-all duration-300 ${
+            idx === 0
+              ? "w-6 h-2 rounded-full bg-accent"
+              : "w-2 h-2 rounded-full bg-white/20 hover:bg-white/40"
+          }`}
+          aria-label={`Ver foto ${idx + 1}`}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Mobile Carousel Dots Logic
+  const track = document.getElementById("gallery-carousel-track");
+  const galleryDots = document.querySelectorAll(".gallery-dot-btn");
+
+  if (track && galleryDots.length > 0) {
+    galleryDots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const idx = Number(dot.getAttribute("data-gallery-dot"));
+        const item = track.children[idx] as HTMLElement;
+        if (item) {
+          const scrollOffset = item.offsetLeft - (track.clientWidth - item.clientWidth) / 2;
+          track.scrollTo({ left: Math.max(0, scrollOffset), behavior: "smooth" });
+        }
+      });
+    });
+
+    track.addEventListener("scroll", () => {
+      const items = Array.from(track.children) as HTMLElement[];
+      const containerCenter = track.scrollLeft + track.clientWidth / 2;
+
+      let closestIdx = 0;
+      let minDistance = Infinity;
+
+      items.forEach((item, idx) => {
+        const itemCenter = item.offsetLeft + item.clientWidth / 2;
+        const distance = Math.abs(containerCenter - itemCenter);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestIdx = idx;
+        }
+      });
+
+      galleryDots.forEach((dot, idx) => {
+        if (idx === closestIdx) {
+          dot.className = "gallery-dot-btn transition-all duration-300 w-6 h-2.5 rounded-full bg-accent cursor-pointer";
+        } else {
+          dot.className = "gallery-dot-btn transition-all duration-300 w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-white/40 cursor-pointer";
+        }
+      });
+    }, { passive: true });
+  }
+</script>

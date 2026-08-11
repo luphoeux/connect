@@ -1,0 +1,62 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import Schedule from "../components/Schedule.astro";
+import GalleryMachines from "../components/GalleryMachines.astro";
+import PetFriendly from "../components/PetFriendly.astro";
+import Events from "../components/Events.astro";
+import ContactSection from "../components/ContactSection.astro";
+import Footer from "../components/Footer.astro";
+import MemberDashboard from "../components/MemberDashboard.astro";
+---
+
+<Layout>
+  <!-- View for Logged-In Members (Dashboard with Downloaded Stories & Stats) -->
+  <div id="member-dashboard-view" class="hidden min-h-[70vh]">
+    <MemberDashboard />
+  </div>
+
+  <!-- View for Public Guests (Landing Page) -->
+  <div id="public-landing-view">
+    <Hero />
+
+    <div class="h-px w-full bg-white/5" />
+    <Schedule />
+
+    <div class="h-px w-full bg-white/5" />
+    <GalleryMachines />
+
+    <div class="h-px w-full bg-white/5" />
+    <PetFriendly />
+
+    <div class="h-px w-full bg-white/5" />
+    <Events />
+
+    <div class="h-px w-full bg-white/5" />
+    <ContactSection />
+  </div>
+
+  <Footer />
+</Layout>
+
+<script>
+  function toggleHomeViews() {
+    const userJson = localStorage.getItem("connect_user");
+    const memberDashboardView = document.getElementById("member-dashboard-view");
+    const publicLandingView = document.getElementById("public-landing-view");
+
+    if (userJson) {
+      memberDashboardView?.classList.remove("hidden");
+      publicLandingView?.classList.add("hidden");
+    } else {
+      memberDashboardView?.classList.add("hidden");
+      publicLandingView?.classList.remove("hidden");
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", toggleHomeViews);
+  } else {
+    toggleHomeViews();
+  }
+</script>

@@ -1,0 +1,34 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Iniciar Dev Server (npm run dev)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Debug Chrome (http://localhost:4321)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:4321",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "Debug Edge (http://localhost:4321)",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:4321",
+      "webRoot": "${workspaceFolder}"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Servidor Dev + Chrome",
+      "configurations": ["Iniciar Dev Server (npm run dev)", "Debug Chrome (http://localhost:4321)"],
+      "stopAll": true
+    }
+  ]
+}

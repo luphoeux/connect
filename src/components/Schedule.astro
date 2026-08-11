@@ -1,0 +1,1001 @@
+---
+// Componente de Horarios & Planes para Single Page Landing
+export const horariosGenerales = [
+  {
+    dia: "Lunes a Viernes",
+    hora: "06:00 a 23:00",
+    nota: "Atención Continua",
+    days: "1,2,3,4,5",
+  },
+  {
+    dia: "Sábados",
+    hora: "08:00 a 20:00",
+    nota: "Atención Continua",
+    days: "6",
+  },
+  {
+    dia: "Domingos y Feriados",
+    hora: "09:00 a 15:00",
+    nota: "Horario Especial",
+    days: "0",
+  },
+];
+
+export const planesData = [
+  {
+    id: "sesion-individual",
+    nombre: "PASE DIARIO",
+    precio: "Bs. 50",
+    periodo: "1 día de acceso",
+    caracteristicas: [
+      "Acceso completo por 1 día",
+      "Gimnasio & Musculación",
+      "Uso de lockers y vestuarios",
+    ],
+    destacado: false,
+    badge: null as string | null,
+  },
+  {
+    id: "pase-semanal",
+    nombre: "PASE SEMANAL",
+    precio: "Bs. 170",
+    periodo: "7 días consecutivos",
+    caracteristicas: [
+      "Acceso ilimitado por 7 días",
+      "Gimnasio & Musculación",
+      "Clases grupales incluidas",
+      "Sin compromiso mensual",
+    ],
+    destacado: false,
+    badge: null as string | null,
+  },
+  {
+    id: "plan-connect",
+    nombre: "PLAN CONNECT",
+    precio: "Bs. 399",
+    periodo: "Mensual",
+    caracteristicas: [
+      "Gimnasio & Musculación",
+      "Clases grupales ilimitadas",
+      "Evaluación mensual",
+      "Invitado gratis cada viernes",
+      "Acceso a GO by Connect (Achumani)",
+    ],
+    destacado: true,
+    badge: "★ MÁS ELEGIDO" as string | null,
+  },
+  {
+    id: "plan-viajero",
+    nombre: "PLAN VIAJERO",
+    precio: "Bs. 575",
+    periodo: "30 accesos en 60 días",
+    caracteristicas: [
+      "Tú decides cuándo entrenar",
+      "Más flexibilidad, más resultados",
+      "Acceso a todas las instalaciones",
+      "Ideal para horarios variables",
+    ],
+    destacado: false,
+    badge: null as string | null,
+  },
+];
+
+export const grillaSalon = [
+  {
+    hora: "07:30",
+    lunes: "-",
+    martes: "-",
+    miercoles: "-",
+    jueves: "-",
+    viernes: "Vinyasa Yoga (Karenine)",
+    sabado: "-",
+  },
+  {
+    hora: "09:00",
+    lunes: "-",
+    martes: "Ashtanga Yoga (Marco)",
+    miercoles: "Ashtanga Yoga (Marco)",
+    jueves: "Ashtanga Yoga (Marco)",
+    viernes: "-",
+    sabado: "Body Combat (Cindy)",
+  },
+  {
+    hora: "10:10",
+    lunes: "Zumba (Brandon)",
+    martes: "Pilates (Gabriela)",
+    miercoles: "Zumba (Brandon)",
+    jueves: "Pilates (Gabriela)",
+    viernes: "-",
+    sabado: "Vinyasa Yoga (Karenine 10:30)",
+  },
+  {
+    hora: "11:10",
+    lunes: "Core (Cindy)",
+    martes: "Body Combat (Cindy)",
+    miercoles: "Core (Cindy)",
+    jueves: "Body Combat (Cindy)",
+    viernes: "Core (Cindy)",
+    sabado: "-",
+  },
+  {
+    hora: "16:00",
+    lunes: "Kick Boxing (Niños)",
+    martes: "-",
+    miercoles: "Kick Boxing (Niños)",
+    jueves: "-",
+    viernes: "Kick Boxing (Niños)",
+    sabado: "-",
+  },
+  {
+    hora: "17:00",
+    lunes: "-",
+    martes: "Comercial Dance (Ana)",
+    miercoles: "-",
+    jueves: "Comercial Dance (Ana)",
+    viernes: "-",
+    sabado: "-",
+  },
+  {
+    hora: "18:00",
+    turno: "TURNO TARDE",
+    lunes: "Body Combat (Cindy)",
+    martes: "Zumba (Brandon)",
+    miercoles: "Body Combat (Cindy)",
+    jueves: "Core (Cindy)",
+    viernes: "Zumba (Brandon)",
+    sabado: "-",
+  },
+  {
+    hora: "19:10",
+    lunes: "Vinyasa Yoga (Karenine)",
+    martes: "Hata Yoga (Gabriela)",
+    miercoles: "Yoga Presivos (Gabbriela)",
+    jueves: "Yoga Flow (Gabbriela)",
+    viernes: "Body Combat (Cindy)",
+    sabado: "-",
+  },
+];
+---
+
+<section id="horarios" class="py-24 px-4 sm:px-6 max-w-7xl mx-auto space-y-16">
+  <!-- Header Banner -->
+  <div class="text-center max-w-3xl mx-auto">
+    <span class="text-accent text-xs tracking-[0.3em] uppercase font-medium"
+      >Connect Health &amp; Fitness</span
+    >
+    <h2
+      class="text-3xl sm:text-4xl font-light tracking-[0.15em] uppercase text-text mt-3 mb-4"
+    >
+      Horarios &amp; Tarifas
+    </h2>
+    <div class="h-px w-20 bg-surface-mid mx-auto mb-4"></div>
+    <p class="text-text-muted text-sm sm:text-base font-light leading-relaxed">
+      Conoce nuestros horarios de atención, planes de membresía y el cronograma
+      de clases del Salón Connect.
+    </p>
+  </div>
+
+  <!-- General Opening Hours Grid -->
+  <div>
+    <h3
+      class="text-xs uppercase tracking-[0.25em] font-medium text-text-muted mb-6 flex items-center gap-3"
+    >
+      <svg
+        class="w-4 h-4 text-accent"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <span>Horario General de Atención</span>
+    </h3>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      {
+        horariosGenerales.map(({ dia, hora, nota, days }) => (
+          <div
+            class="horario-card bg-surface/90 border border-white/10 p-7 backdrop-blur-xl transition-all duration-500 relative overflow-hidden group hover:border-accent hover:bg-accent/15 hover:shadow-[0_0_35px_rgba(230,136,66,0.35)] hover:-translate-y-1 cursor-pointer"
+            data-days={days}
+          >
+            <div class="active-badge hidden absolute top-0 right-0 bg-accent text-bg text-[9px] font-bold uppercase tracking-[0.2em] px-3 py-1 shadow-lg">
+              ● HORARIO DE HOY
+            </div>
+
+            <span class="nota-text text-accent text-[10px] tracking-[0.2em] uppercase font-medium">
+              {nota}
+            </span>
+            <h4 class="dia-title text-xl font-light tracking-[0.05em] text-text mt-2 mb-1">
+              {dia}
+            </h4>
+            <p class="hora-text text-2xl font-light text-text font-mono mt-2">
+              {hora}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Plans & Memberships Touch Carousel on Mobile / 4 Cards Grid on Desktop -->
+  <div class="relative">
+    <div class="mb-6">
+      <h3
+        class="text-xs uppercase tracking-[0.25em] font-medium text-text-muted flex items-center gap-3"
+      >
+        <svg
+          class="w-4 h-4 text-accent"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5h16.5a1.5 1.5 0 011.5 1.5v9.75a1.5 1.5 0 01-1.5 1.5H3.75a1.5 1.5 0 01-1.5-1.5V6a1.5 1.5 0 011.5-1.5z"
+          ></path>
+        </svg>
+        <span>Planes &amp; Membresías</span>
+      </h3>
+    </div>
+
+    <!-- Scroll Container (Horizontal snap carousel on mobile, Grid on desktop) -->
+    <div
+      id="plans-carousel-container"
+      class="flex overflow-x-auto snap-x snap-mandatory scrollbar-none gap-4 sm:gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-4 items-stretch pt-4 sm:pt-6 pb-4 sm:pb-2"
+    >
+      {
+        planesData.map((plan) => (
+          <div
+            class={`plan-card w-[85vw] max-w-[320px] flex-shrink-0 snap-center sm:w-auto sm:max-w-none bg-surface/90 border p-6 sm:p-7 backdrop-blur-xl flex flex-col justify-between transition-all duration-500 relative overflow-hidden group hover:border-accent hover:bg-accent/15 hover:shadow-[0_0_40px_rgba(230,136,66,0.35)] hover:ring-1 hover:ring-accent hover:-translate-y-2 cursor-pointer ${
+              plan.destacado
+                ? "border-accent/40 bg-surface/90"
+                : "border-white/10"
+            }`}
+            data-plan-name={plan.nombre}
+          >
+            {plan.badge && (
+              <div class="absolute top-0 right-0 bg-accent text-bg text-[9px] font-bold uppercase tracking-[0.2em] px-3 py-1 shadow-lg">
+                {plan.badge}
+              </div>
+            )}
+
+            <div class="member-plan-badge hidden absolute top-0 left-0 bg-emerald-500 text-white text-[9px] font-bold uppercase tracking-[0.2em] px-3 py-1 shadow-lg">
+              ★ TU PLAN ACTIVO
+            </div>
+
+            <div>
+              <div class="mb-4 pt-2">
+                <span class="text-[10px] uppercase tracking-[0.2em] font-medium text-accent block mb-1">
+                  {plan.periodo}
+                </span>
+                <h4 class="text-xl font-light tracking-[0.08em] text-text">
+                  {plan.nombre}
+                </h4>
+                <div class="mt-3">
+                  <span class="text-3xl font-light text-text font-mono">
+                    {plan.precio}
+                  </span>
+                </div>
+              </div>
+
+              <p class="member-exp-info hidden text-xs text-accent font-medium mb-3 tracking-wide">
+                Vence: --
+              </p>
+
+              <div class="h-px w-full bg-white/10 my-4" />
+
+              <ul class="space-y-2.5 mb-6">
+                {plan.caracteristicas.map((item) => (
+                  <li class="flex items-start gap-2.5 text-xs text-text-secondary font-light leading-snug">
+                    <svg
+                      class="w-4 h-4 text-accent flex-shrink-0 mt-0.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4.5 12.75l6 6 9-13.5"
+                      />
+                    </svg>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <a
+              href="https://wa.me/59177254022"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-full text-center py-3 uppercase text-[11px] tracking-[0.2em] font-medium transition-all duration-300 bg-white/5 text-text group-hover:bg-accent group-hover:text-bg group-hover:shadow-lg border border-white/10 group-hover:border-accent"
+            >
+              Consultar
+            </a>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Mobile Carousel Pagination Dots (< sm) -->
+    <div class="flex sm:hidden items-center justify-center gap-2 mt-4" id="plans-dots-container">
+      {planesData.map((plan, idx) => (
+        <button
+          type="button"
+          data-plan-dot={idx}
+          class={`plan-dot-btn transition-all duration-300 ${
+            idx === 2
+              ? "w-6 h-2 rounded-full bg-accent"
+              : "w-2 h-2 rounded-full bg-white/20 hover:bg-white/40"
+          }`}
+          aria-label={`Ver ${plan.nombre}`}
+        />
+      ))}
+    </div>
+  </div>
+
+  <!-- Schedule Table & Live Class Status -->
+  <div>
+    <div
+      class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6"
+    >
+      <h3
+        class="text-xs uppercase tracking-[0.25em] font-medium text-text-muted flex items-center gap-3"
+      >
+        <svg
+          class="w-4 h-4 text-accent"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+          ></path>
+        </svg>
+        <span>Horarios Salón Connect</span>
+      </h3>
+      <span class="text-xs text-text-muted font-light"
+        >Actualizado semanalmente</span
+      >
+    </div>
+
+    <!-- Live Class Status Banner (Hora La Paz, Bolivia) -->
+    <div
+      id="live-class-banner"
+      class="mb-6 p-4 sm:p-5 bg-surface/90 border border-white/15 backdrop-blur-xl shadow-2xl relative overflow-hidden transition-all duration-500"
+    >
+      <!-- Top Row: Status Dot + Label + Clock Badge -->
+      <div
+        class="flex items-center justify-between gap-3 pb-3 border-b border-white/10 mb-3"
+      >
+        <div class="flex items-center gap-2.5 min-w-0">
+          <span class="relative flex h-3 w-3 flex-shrink-0">
+            <span
+              id="live-dot-ping"
+              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"
+            ></span>
+            <span
+              id="live-dot"
+              class="relative inline-flex rounded-full h-3 w-3 bg-accent"
+            ></span>
+          </span>
+          <span
+            id="live-status-label"
+            class="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-accent truncate"
+          >
+            ESTADO EN VIVO
+          </span>
+        </div>
+
+        <div
+          class="flex items-center gap-1.5 px-2.5 py-1 bg-black/50 border border-white/10 text-[10px] sm:text-xs font-mono text-text-muted flex-shrink-0"
+        >
+          <span class="text-white/40 hidden sm:inline">La Paz, Bolivia:</span>
+          <span id="la-paz-clock" class="text-white font-bold tracking-wider"
+            >--:--:--</span
+          >
+        </div>
+      </div>
+
+      <!-- Main Row: Active Class Title & Next Class -->
+      <div
+        class="flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+      >
+        <div>
+          <span
+            class="text-[9px] uppercase tracking-widest text-text-muted block mb-0.5"
+            >En Curso Salón Connect</span
+          >
+          <h4
+            id="current-class-title"
+            class="text-base sm:text-lg font-medium text-text uppercase tracking-wide"
+          >
+            Cargando estado actual...
+          </h4>
+        </div>
+
+        <div
+          id="next-class-badge"
+          class="pt-2.5 sm:pt-0 sm:text-right border-t sm:border-t-0 border-white/10 flex-shrink-0 hidden"
+        >
+          <span
+            class="text-[9px] uppercase tracking-widest text-text-muted block"
+            >Próxima Clase</span
+          >
+          <span
+            id="next-class-title"
+            class="text-xs font-medium text-accent font-sans mt-0.5 block"
+            >--</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Schedule Day-by-Day Card View (< md) -->
+    <div class="block md:hidden space-y-4">
+      <div
+        class="flex items-center gap-1.5 overflow-x-auto pb-2 scrollbar-none"
+        id="mobile-day-selector"
+      >
+        <button
+          type="button"
+          data-mobile-day="1"
+          class="mobile-day-btn flex-1 min-w-[54px] py-2.5 px-2 bg-white/5 border border-white/10 text-center text-xs font-medium uppercase tracking-wider text-text-muted transition-all"
+        >
+          Lun
+        </button>
+        <button
+          type="button"
+          data-mobile-day="2"
+          class="mobile-day-btn flex-1 min-w-[54px] py-2.5 px-2 bg-white/5 border border-white/10 text-center text-xs font-medium uppercase tracking-wider text-text-muted transition-all"
+        >
+          Mar
+        </button>
+        <button
+          type="button"
+          data-mobile-day="3"
+          class="mobile-day-btn flex-1 min-w-[54px] py-2.5 px-2 bg-white/5 border border-white/10 text-center text-xs font-medium uppercase tracking-wider text-text-muted transition-all"
+        >
+          Mié
+        </button>
+        <button
+          type="button"
+          data-mobile-day="4"
+          class="mobile-day-btn flex-1 min-w-[54px] py-2.5 px-2 bg-white/5 border border-white/10 text-center text-xs font-medium uppercase tracking-wider text-text-muted transition-all"
+        >
+          Jue
+        </button>
+        <button
+          type="button"
+          data-mobile-day="5"
+          class="mobile-day-btn flex-1 min-w-[54px] py-2.5 px-2 bg-white/5 border border-white/10 text-center text-xs font-medium uppercase tracking-wider text-text-muted transition-all"
+        >
+          Vie
+        </button>
+        <button
+          type="button"
+          data-mobile-day="6"
+          class="mobile-day-btn flex-1 min-w-[54px] py-2.5 px-2 bg-white/5 border border-white/10 text-center text-xs font-medium uppercase tracking-wider text-text-muted transition-all"
+        >
+          Sáb
+        </button>
+      </div>
+
+      <div id="mobile-classes-container" class="space-y-3">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </div>
+
+    <!-- Desktop Schedule Grid Table Matrix (>= md) -->
+    <div
+      class="hidden md:block bg-surface/90 border border-white/10 overflow-x-auto"
+    >
+      <table class="w-full text-left text-xs min-w-[700px]">
+        <thead>
+          <tr
+            class="border-b border-white/10 bg-white/5 text-text uppercase tracking-[0.15em]"
+          >
+            <th class="p-4 w-20">Hora</th>
+            <th class="p-4 col-day" data-day-index="1">Lunes</th>
+            <th class="p-4 col-day" data-day-index="2">Martes</th>
+            <th class="p-4 col-day" data-day-index="3">Miércoles</th>
+            <th class="p-4 col-day" data-day-index="4">Jueves</th>
+            <th class="p-4 col-day" data-day-index="5">Viernes</th>
+            <th class="p-4 col-day" data-day-index="6">Sábado</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/5 font-light">
+          {
+            grillaSalon.map((row) => (
+              <>
+                {row.turno && (
+                  <tr class="bg-surface-mid/80 text-center">
+                    <td
+                      colspan="7"
+                      class="py-2.5 uppercase tracking-[0.3em] text-[11px] font-medium text-accent border-y border-white/10"
+                    >
+                      {row.turno}
+                    </td>
+                  </tr>
+                )}
+                <tr class="hover:bg-white/5 transition-colors">
+                  <td class="p-4 font-mono font-medium text-text">
+                    {row.hora}
+                  </td>
+                  <td
+                    class={`p-4 cell-day ${row.lunes !== "-" ? "text-text" : "text-text-muted/30"}`}
+                    data-day-index="1"
+                  >
+                    {row.lunes}
+                  </td>
+                  <td
+                    class={`p-4 cell-day ${row.martes !== "-" ? "text-text" : "text-text-muted/30"}`}
+                    data-day-index="2"
+                  >
+                    {row.martes}
+                  </td>
+                  <td
+                    class={`p-4 cell-day ${row.miercoles !== "-" ? "text-text" : "text-text-muted/30"}`}
+                    data-day-index="3"
+                  >
+                    {row.miercoles}
+                  </td>
+                  <td
+                    class={`p-4 cell-day ${row.jueves !== "-" ? "text-text" : "text-text-muted/30"}`}
+                    data-day-index="4"
+                  >
+                    {row.jueves}
+                  </td>
+                  <td
+                    class={`p-4 cell-day ${row.viernes !== "-" ? "text-text" : "text-text-muted/30"}`}
+                    data-day-index="5"
+                  >
+                    {row.viernes}
+                  </td>
+                  <td
+                    class={`p-4 cell-day ${row.sabado !== "-" ? "text-text" : "text-text-muted/30"}`}
+                    data-day-index="6"
+                  >
+                    {row.sabado}
+                  </td>
+                </tr>
+              </>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Highlight active day schedule cards
+  const today = new Date().getDay();
+  const cards = document.querySelectorAll(".horario-card");
+  cards.forEach((card) => {
+    const targetDays = (card.getAttribute("data-days") || "")
+      .split(",")
+      .map(Number);
+    if (targetDays.includes(today)) {
+      const badge = card.querySelector(".active-badge");
+      if (badge) badge.classList.remove("hidden");
+    }
+  });
+
+  // Highlight Schedule Table Columns
+  if (today >= 1 && today <= 6) {
+    const dayStr = today.toString();
+    document
+      .querySelectorAll(`.col-day[data-day-index="${dayStr}"]`)
+      .forEach((col) => {
+        col.classList.add("bg-accent/25", "text-accent", "font-bold");
+      });
+    document
+      .querySelectorAll(`.cell-day[data-day-index="${dayStr}"]`)
+      .forEach((cell) => {
+        cell.classList.add("bg-accent/10", "font-medium");
+      });
+  }
+
+  // Live Class Activator for La Paz, Bolivia (UTC-4)
+  function updateLiveClassStatus() {
+    const now = new Date();
+    const laPazDateStr = now.toLocaleString("en-US", {
+      timeZone: "America/La_Paz",
+    });
+    const laPazDate = new Date(laPazDateStr);
+
+    const hours = laPazDate.getHours();
+    const minutes = laPazDate.getMinutes();
+    const currentDay = laPazDate.getDay();
+    const totalMinutes = hours * 60 + minutes;
+
+    const clockEl = document.getElementById("la-paz-clock");
+    if (clockEl) {
+      const hh = hours.toString().padStart(2, "0");
+      const mm = minutes.toString().padStart(2, "0");
+      const ss = laPazDate.getSeconds().toString().padStart(2, "0");
+      clockEl.textContent = `${hh}:${mm}:${ss}`;
+    }
+
+    const titleEl = document.getElementById("current-class-title");
+    const labelEl = document.getElementById("live-status-label");
+    const nextBadge = document.getElementById("next-class-badge");
+    const nextTitle = document.getElementById("next-class-title");
+    const liveDot = document.getElementById("live-dot");
+    const liveDotPing = document.getElementById("live-dot-ping");
+
+    const classSlots: Array<{
+      hora: string;
+      start: number;
+      end: number;
+      days: Record<number, string>;
+    }> = [
+      {
+        hora: "07:30",
+        start: 7 * 60 + 30,
+        end: 8 * 60 + 30,
+        days: { 5: "Vinyasa Yoga (Karenine)" },
+      },
+      {
+        hora: "09:00",
+        start: 9 * 60,
+        end: 10 * 60,
+        days: {
+          2: "Ashtanga Yoga (Marco)",
+          3: "Ashtanga Yoga (Marco)",
+          4: "Ashtanga Yoga (Marco)",
+          6: "Body Combat (Cindy)",
+        },
+      },
+      {
+        hora: "10:10",
+        start: 10 * 60 + 10,
+        end: 11 * 60 + 10,
+        days: {
+          1: "Zumba (Brandon)",
+          2: "Pilates (Gabriela)",
+          3: "Zumba (Brandon)",
+          4: "Pilates (Gabriela)",
+          6: "Vinyasa Yoga (Karenine 10:30)",
+        },
+      },
+      {
+        hora: "11:10",
+        start: 11 * 60 + 10,
+        end: 12 * 60 + 10,
+        days: {
+          1: "Core (Cindy)",
+          2: "Body Combat (Cindy)",
+          3: "Core (Cindy)",
+          4: "Body Combat (Cindy)",
+          5: "Core (Cindy)",
+        },
+      },
+      {
+        hora: "16:00",
+        start: 16 * 60,
+        end: 17 * 60,
+        days: {
+          1: "Kick Boxing (Niños)",
+          3: "Kick Boxing (Niños)",
+          5: "Kick Boxing (Niños)",
+        },
+      },
+      {
+        hora: "17:00",
+        start: 17 * 60,
+        end: 18 * 60,
+        days: { 2: "Comercial Dance (Ana)", 4: "Comercial Dance (Ana)" },
+      },
+      {
+        hora: "18:00",
+        start: 18 * 60,
+        end: 19 * 60,
+        days: {
+          1: "Body Combat (Cindy)",
+          2: "Zumba (Brandon)",
+          3: "Body Combat (Cindy)",
+          4: "Core (Cindy)",
+          5: "Zumba (Brandon)",
+        },
+      },
+      {
+        hora: "19:10",
+        start: 19 * 60 + 10,
+        end: 20 * 60 + 10,
+        days: {
+          1: "Vinyasa Yoga (Karenine)",
+          2: "Hata Yoga (Gabriela)",
+          3: "Yoga Presivos (Gabbriela)",
+          4: "Yoga Flow (Gabbriela)",
+          5: "Body Combat (Cindy)",
+        },
+      },
+    ];
+
+    let activeClass: string | null = null;
+    let activeHora: string | null = null;
+
+    classSlots.forEach((slot) => {
+      if (
+        totalMinutes >= slot.start &&
+        totalMinutes < slot.end &&
+        slot.days[currentDay]
+      ) {
+        activeClass = slot.days[currentDay];
+        activeHora = slot.hora;
+      }
+    });
+
+    let nextClass: string | null = null;
+    let nextHora: string | null = null;
+    classSlots.forEach((slot) => {
+      if (!nextClass && totalMinutes < slot.start && slot.days[currentDay]) {
+        nextClass = slot.days[currentDay];
+        nextHora = slot.hora;
+      }
+    });
+
+    document.querySelectorAll(".cell-day").forEach((cell) => {
+      cell.classList.remove(
+        "bg-accent",
+        "text-bg",
+        "font-bold",
+        "shadow-lg",
+        "ring-2",
+        "ring-accent",
+      );
+    });
+
+    if (activeClass) {
+      if (labelEl) labelEl.textContent = "CLASE EN CURSO AHORA";
+      if (titleEl) titleEl.textContent = `${activeClass} (${activeHora})`;
+      if (liveDot)
+        liveDot.className =
+          "relative inline-flex rounded-full h-3 w-3 bg-accent";
+      if (liveDotPing)
+        liveDotPing.className =
+          "animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75";
+
+      if (nextClass && nextTitle) {
+        nextTitle.textContent = `${nextClass} a las ${nextHora}`;
+        nextBadge?.classList.remove("hidden");
+      } else {
+        nextBadge?.classList.add("hidden");
+      }
+
+      document.querySelectorAll(`tr`).forEach((row) => {
+        const horaTd = row.querySelector("td");
+        if (horaTd && horaTd.textContent?.trim() === activeHora) {
+          const targetCell = row.querySelector(
+            `.cell-day[data-day-index="${currentDay}"]`,
+          );
+          if (targetCell) {
+            targetCell.classList.add(
+              "bg-accent",
+              "text-bg",
+              "font-bold",
+              "shadow-lg",
+              "ring-2",
+              "ring-accent",
+            );
+          }
+        }
+      });
+    } else {
+      const isOpenMonFri =
+        currentDay >= 1 &&
+        currentDay <= 5 &&
+        totalMinutes >= 6 * 60 &&
+        totalMinutes < 23 * 60;
+      const isOpenSat =
+        currentDay === 6 && totalMinutes >= 8 * 60 && totalMinutes < 20 * 60;
+      const isOpenSun =
+        currentDay === 0 && totalMinutes >= 9 * 60 && totalMinutes < 15 * 60;
+
+      if (isOpenMonFri || isOpenSat || isOpenSun) {
+        if (labelEl) labelEl.textContent = "GIMNASIO ABIERTO";
+        if (titleEl)
+          titleEl.textContent = "Entrenamiento Libre en Área de Pesas & Cardio";
+        if (liveDot)
+          liveDot.className =
+            "relative inline-flex rounded-full h-3.5 w-3.5 bg-accent";
+        if (liveDotPing)
+          liveDotPing.className =
+            "animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75";
+
+        if (nextClass && nextTitle) {
+          nextTitle.textContent = `${nextClass} a las ${nextHora}`;
+          nextBadge?.classList.remove("hidden");
+        } else {
+          nextBadge?.classList.add("hidden");
+        }
+      } else {
+        if (labelEl) labelEl.textContent = "GIMNASIO CERRADO";
+        if (titleEl)
+          titleEl.textContent = "Horario de atención finalizado por hoy";
+        if (liveDot)
+          liveDot.className =
+            "relative inline-flex rounded-full h-3.5 w-3.5 bg-red-500";
+        if (liveDotPing) liveDotPing.className = "hidden";
+        nextBadge?.classList.add("hidden");
+      }
+    }
+  }
+
+  setInterval(updateLiveClassStatus, 1000);
+  updateLiveClassStatus();
+
+  // Mobile Schedule Day Tabs Logic
+  const mobileDayBtns = document.querySelectorAll(".mobile-day-btn");
+  const mobileContainer = document.getElementById("mobile-classes-container");
+
+  const grillaDataDays: Record<
+    number,
+    Array<{ hora: string; clase: string }>
+  > = {
+    1: [
+      { hora: "10:10", clase: "Zumba (Brandon)" },
+      { hora: "11:10", clase: "Core (Cindy)" },
+      { hora: "16:00", clase: "Kick Boxing (Niños)" },
+      { hora: "18:00", clase: "Body Combat (Cindy)" },
+      { hora: "19:10", clase: "Vinyasa Yoga (Karenine)" },
+    ],
+    2: [
+      { hora: "09:00", clase: "Ashtanga Yoga (Marco)" },
+      { hora: "10:10", clase: "Pilates (Gabriela)" },
+      { hora: "11:10", clase: "Body Combat (Cindy)" },
+      { hora: "17:00", clase: "Comercial Dance (Ana)" },
+      { hora: "18:00", clase: "Zumba (Brandon)" },
+      { hora: "19:10", clase: "Hata Yoga (Gabriela)" },
+    ],
+    3: [
+      { hora: "09:00", clase: "Ashtanga Yoga (Marco)" },
+      { hora: "10:10", clase: "Zumba (Brandon)" },
+      { hora: "11:10", clase: "Core (Cindy)" },
+      { hora: "16:00", clase: "Kick Boxing (Niños)" },
+      { hora: "18:00", clase: "Body Combat (Cindy)" },
+      { hora: "19:10", clase: "Yoga Presivos (Gabbriela)" },
+    ],
+    4: [
+      { hora: "09:00", clase: "Ashtanga Yoga (Marco)" },
+      { hora: "10:10", clase: "Pilates (Gabriela)" },
+      { hora: "11:10", clase: "Body Combat (Cindy)" },
+      { hora: "17:00", clase: "Comercial Dance (Ana)" },
+      { hora: "18:00", clase: "Core (Cindy)" },
+      { hora: "19:10", clase: "Yoga Flow (Gabbriela)" },
+    ],
+    5: [
+      { hora: "07:30", clase: "Vinyasa Yoga (Karenine)" },
+      { hora: "11:10", clase: "Core (Cindy)" },
+      { hora: "16:00", clase: "Kick Boxing (Niños)" },
+      { hora: "18:00", clase: "Zumba (Brandon)" },
+      { hora: "19:10", clase: "Body Combat (Cindy)" },
+    ],
+    6: [
+      { hora: "09:00", clase: "Body Combat (Cindy)" },
+      { hora: "10:10", clase: "Vinyasa Yoga (Karenine 10:30)" },
+    ],
+  };
+
+  function renderMobileDaySchedule(dayIndex: number) {
+    if (!mobileContainer) return;
+    const classes = grillaDataDays[dayIndex] || [];
+
+    mobileDayBtns.forEach((btn) => {
+      const bDay = Number(btn.getAttribute("data-mobile-day"));
+      if (bDay === dayIndex) {
+        btn.className =
+          "mobile-day-btn flex-1 min-w-[54px] py-2.5 px-2 bg-accent text-bg font-bold text-xs uppercase tracking-wider shadow-lg rounded transition-all";
+      } else {
+        btn.className =
+          "mobile-day-btn flex-1 min-w-[54px] py-2.5 px-2 bg-white/5 border border-white/10 text-center text-xs font-medium uppercase tracking-wider text-text-muted rounded hover:bg-white/10 transition-all";
+      }
+    });
+
+    if (classes.length === 0) {
+      mobileContainer.innerHTML = `
+        <div class="bg-surface/80 border border-white/10 p-6 text-center">
+          <p class="text-xs text-text-muted uppercase tracking-wider">Sin clases dirigidas programadas para este día</p>
+          <p class="text-xs text-accent font-medium mt-1">Gimnasio Abierto en Horario Regular (09:00 a 15:00)</p>
+        </div>
+      `;
+      return;
+    }
+
+    mobileContainer.innerHTML = classes
+      .map(
+        (c) => `
+        <div class="bg-surface/90 border border-white/10 p-4 flex items-center justify-between gap-3 shadow-md hover:border-accent/40 transition-colors">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1.5 bg-accent/15 border border-accent/30 text-accent font-mono text-xs font-bold uppercase tracking-wider flex-shrink-0">
+              ${c.hora}
+            </span>
+            <div>
+              <h4 class="text-sm font-medium text-text uppercase tracking-wide">${c.clase}</h4>
+              <span class="text-[10px] text-text-muted font-light uppercase tracking-widest block">Salón Connect</span>
+            </div>
+          </div>
+        </div>
+      `,
+      )
+      .join("");
+  }
+
+  const initialMobileDay = today >= 1 && today <= 6 ? today : 1;
+  renderMobileDaySchedule(initialMobileDay);
+
+  mobileDayBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const d = Number(btn.getAttribute("data-mobile-day"));
+      renderMobileDaySchedule(d);
+    });
+  });
+
+  // Mobile Plans Carousel Dots Logic
+  const plansCarousel = document.getElementById("plans-carousel-container");
+  const planDots = document.querySelectorAll(".plan-dot-btn");
+
+  if (plansCarousel && planDots.length > 0) {
+    planDots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const idx = Number(dot.getAttribute("data-plan-dot"));
+        const card = plansCarousel.children[idx] as HTMLElement;
+        if (card) {
+          const scrollOffset = card.offsetLeft - (plansCarousel.clientWidth - card.clientWidth) / 2;
+          plansCarousel.scrollTo({ left: Math.max(0, scrollOffset), behavior: "smooth" });
+        }
+      });
+    });
+
+    plansCarousel.addEventListener("scroll", () => {
+      const cards = Array.from(plansCarousel.children) as HTMLElement[];
+      const containerCenter = plansCarousel.scrollLeft + plansCarousel.clientWidth / 2;
+
+      let closestIdx = 0;
+      let minDistance = Infinity;
+
+      cards.forEach((card, idx) => {
+        const cardCenter = card.offsetLeft + card.clientWidth / 2;
+        const distance = Math.abs(containerCenter - cardCenter);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestIdx = idx;
+        }
+      });
+
+      planDots.forEach((dot, idx) => {
+        if (idx === closestIdx) {
+          dot.className = "plan-dot-btn transition-all duration-300 w-6 h-2.5 rounded-full bg-accent cursor-pointer";
+        } else {
+          dot.className = "plan-dot-btn transition-all duration-300 w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-white/40 cursor-pointer";
+        }
+      });
+    }, { passive: true });
+  }
+
+  // Auto-scroll mobile carousel to focus on Plan Connect (Position 3) on load
+  function focusPlanConnectOnMobile() {
+    if (!plansCarousel || window.innerWidth >= 640) return;
+    const connectCard = plansCarousel.querySelector('[data-plan-name="PLAN CONNECT"]') as HTMLElement;
+    if (connectCard) {
+      const scrollOffset = connectCard.offsetLeft - (plansCarousel.clientWidth - connectCard.clientWidth) / 2;
+      plansCarousel.scrollLeft = Math.max(0, scrollOffset);
+    }
+  }
+
+  window.addEventListener("load", focusPlanConnectOnMobile);
+  setTimeout(focusPlanConnectOnMobile, 250);
+</script>

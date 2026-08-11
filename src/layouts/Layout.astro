@@ -1,0 +1,39 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import AnnouncementModal from "../components/AnnouncementModal.astro";
+import FloatingActions from "../components/FloatingActions.astro";
+
+const { title } = Astro.props;
+const fullTitle = title ? `${title} — Connect Health & Fitness` : "Connect Health & Fitness";
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
+    <title>{fullTitle}</title>
+    <meta name="description" content="Centro de entrenamiento premium. Conoce tu cuenta, planes y horarios." />
+
+    <!-- Browser Theme Color & Mobile Status Bar Styling (Brand Dark #121212) -->
+    <meta name="theme-color" content="#121212" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121212" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="msapplication-navbutton-color" content="#121212" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-bg text-text antialiased min-h-screen flex flex-col justify-between">
+    <AnnouncementModal />
+    <Header />
+    <main class="flex-grow">
+      <slot />
+    </main>
+    <FloatingActions />
+  </body>
+</html>

@@ -1,0 +1,145 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Iniciar Sesión">
+  <main class="relative min-h-screen flex items-center justify-center py-20 px-6 overflow-hidden">
+    <!-- Video background -->
+    <video
+      autoplay
+      loop
+      muted
+      playsinline
+      class="absolute inset-0 w-full h-full object-cover opacity-10 pointer-events-none z-0"
+    >
+      <source src="/videos/portada%20loop.mp4" type="video/mp4" />
+      <source src="/videos/portada loop.mp4" type="video/mp4" />
+    </video>
+
+    <!-- Background radial gradient -->
+    <div
+      class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--color-surface-light)_0%,_var(--color-bg)_80%)] opacity-80 pointer-events-none z-0"
+    >
+    </div>
+
+    <!-- Login Container Card -->
+    <div class="relative z-10 w-full max-w-md mx-auto">
+      <!-- Back Link -->
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-text-muted hover:text-text mb-8 transition-colors group"
+      >
+        <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+        </svg>
+        <span>Volver a Inicio</span>
+      </a>
+
+      <div class="bg-surface/90 border border-white/10 p-8 sm:p-10 backdrop-blur-xl shadow-2xl">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+          <img
+            src="/images/logo_connect_letras.svg"
+            alt="Connect Health & Fitness"
+            class="h-10 sm:h-12 w-auto mx-auto mb-6 object-contain"
+          />
+          <h1 class="text-xl sm:text-2xl font-light tracking-[0.15em] uppercase text-text mb-2">
+            Ingreso Miembros
+          </h1>
+          <p class="text-text-muted text-xs sm:text-sm font-light leading-relaxed">
+            Ingresa tu número de Carnet de Identidad (CI) para acceder a tu cuenta y verificar tu membresía.
+          </p>
+        </div>
+
+        <!-- Form -->
+        <form id="login-form" class="space-y-5">
+          <div>
+            <label for="ci-input" class="block text-xs uppercase tracking-[0.2em] text-text-muted mb-2 font-medium">
+              Número de Carnet
+            </label>
+            <div class="relative">
+              <input
+                id="ci-input"
+                type="text"
+                inputmode="numeric"
+                placeholder="Ej: 8337710"
+                maxlength="20"
+                required
+                autocomplete="off"
+                class="w-full bg-bg/80 border border-white/15 px-5 py-3.5 text-text text-center text-lg font-light tracking-[0.1em] placeholder:text-text-muted/40 focus:outline-none focus:border-white/40 transition-colors duration-300"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            id="submit-btn"
+            class="w-full bg-white text-bg px-6 py-4 uppercase text-xs tracking-[0.25em] font-medium hover:bg-white/90 active:scale-[0.99] transition-all duration-300 flex items-center justify-center gap-2"
+          >
+            <span>Ingresar</span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </button>
+        </form>
+
+        <!-- Result Container -->
+        <div id="login-result" class="mt-8 hidden">
+          <p id="login-error" class="p-3 text-red-400 bg-red-500/10 border border-red-500/20 text-xs text-center font-light hidden"></p>
+          <div id="member-card"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  const form = document.getElementById("login-form") as HTMLFormElement;
+  const input = document.getElementById("ci-input") as HTMLInputElement;
+  const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement;
+  const result = document.getElementById("login-result") as HTMLDivElement;
+  const errorEl = document.getElementById("login-error") as HTMLParagraphElement;
+
+  // Auto redirect if already logged in
+  if (localStorage.getItem("connect_user")) {
+    window.location.href = "/perfil";
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const ci = input.value.trim();
+    if (!ci) return;
+
+    errorEl.classList.add("hidden");
+    submitBtn.disabled = true;
+    submitBtn.classList.add("opacity-70");
+
+    try {
+      const res = await fetch("/api/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ci }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        errorEl.textContent = data.error || "No se encontró el miembro con ese carnet.";
+        errorEl.classList.remove("hidden");
+        result.classList.remove("hidden");
+        return;
+      }
+
+      // Store session and redirect to profile page
+      localStorage.setItem("connect_user", JSON.stringify(data));
+      window.location.href = "/perfil";
+    } catch {
+      errorEl.textContent = "Error de conexión con el servidor. Intenta de nuevo.";
+      errorEl.classList.remove("hidden");
+      result.classList.remove("hidden");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.classList.remove("opacity-70");
+    }
+  });
+</script>
