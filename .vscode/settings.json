@@ -1,0 +1,17 @@
+{
+  "files.exclude": {
+    "**/.vercel": true,
+    "**/.astro": true,
+    "**/dist": true
+  },
+  "search.exclude": {
+    "**/.vercel": true,
+    "**/.astro": true,
+    "**/dist": true
+  },
+  "watcherExclude": {
+    "**/.vercel/**": true,
+    "**/.astro/**": true,
+    "**/dist/**": true
+  }
+}
