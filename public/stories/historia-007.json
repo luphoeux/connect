@@ -1,10 +1,8 @@
 {
-  "id": 7,
-  "story_card_id": "1061389289765751",
-  "media_id": "1570186651443629",
-  "media_type": "video",
-  "video": "historia-007.mp4",
+  "id": "007",
+  "video": null,
   "imagen": "historia-007.jpg",
-  "duracion_s": 15,
-  "fechaDescarga": "2026-08-11T15:48:58.299Z"
+  "media_type": "photo",
+  "duracion_s": null,
+  "fechaDescarga": "2026-08-11T19:15:16.778Z"
 }

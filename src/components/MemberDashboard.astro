@@ -1,7 +1,7 @@
 ---
-import { getStories } from "../lib/facebook";
+import { getVideos } from "../lib/facebook";
 
-const stories = await getStories();
+const videos = await getVideos();
 ---
 
 <section id="member-dashboard-section" class="pt-18 sm:pt-22 md:pt-24 pb-8 sm:pb-12 px-4 sm:px-6 max-w-7xl mx-auto space-y-8">
@@ -19,49 +19,68 @@ const stories = await getStories();
       class="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-none scroll-smooth"
       style="-webkit-overflow-scrolling: touch;"
     >
-      {stories.map((story, idx) => (
-        <button
-          class="dash-story-item snap-start flex-shrink-0 w-32 sm:w-36 aspect-[9/16] rounded-2xl overflow-hidden relative group cursor-pointer border border-white/10 hover:border-accent/60 transition-all duration-300 shadow-xl bg-black"
-          data-index={idx}
-          data-id={story.id}
-          data-video={story.video || ""}
-          data-imagen={story.imagen || ""}
-          data-duracion={story.duracion_s ?? ""}
+      <!-- First Card: View Stories on Facebook -->
+      <a
+        href="https://www.facebook.com/stories/100076283411100/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="snap-start flex-shrink-0 w-32 sm:w-36 aspect-[9/16] rounded-2xl overflow-hidden relative group cursor-pointer border-2 border-blue-500/60 hover:border-blue-400 transition-all duration-300 shadow-xl bg-black"
+      >
+        <div class="absolute inset-0 bg-gradient-to-b from-blue-600/30 via-black/40 to-black/90"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 p-3">
+          <div class="w-14 h-14 rounded-full bg-blue-500/20 border-2 border-blue-400/60 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2zm-1 6v8l6-4-6-4z"/>
+            </svg>
+          </div>
+          <span class="text-white text-xs font-medium text-center leading-tight drop-shadow-lg">Ver Historias</span>
+        </div>
+        <div class="absolute top-2.5 left-2.5 z-10">
+          <div class="w-8 h-8 rounded-full bg-black border-2 border-blue-500 p-0.5 shadow-lg flex items-center justify-center overflow-hidden">
+            <img src="/images/logo_connect_letras.svg" alt="Connect" class="w-full h-full object-contain p-0.5" />
+          </div>
+        </div>
+      </a>
+
+      <!-- Video Cards from Facebook -->
+      {videos.map((video) => (
+        <a
+          href={video.permalink_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="snap-start flex-shrink-0 w-32 sm:w-36 aspect-[9/16] rounded-2xl overflow-hidden relative group cursor-pointer border border-white/10 hover:border-accent/60 transition-all duration-300 shadow-xl bg-black"
         >
-          <!-- Full Bleed Card Media -->
-          {story.imagen ? (
+          {video.thumbnail ? (
             <img
-              src={story.imagen}
-              alt={story.title}
+              src={video.thumbnail}
+              alt={video.title}
               loading="lazy"
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
-          ) : story.video ? (
-            <video
-              src={story.video}
-              muted
-              playsinline
-              preload="metadata"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
           ) : (
-            <div class="w-full h-full" style={`background: ${story.gradient};`}></div>
+            <div class="w-full h-full bg-gradient-to-b from-surface-mid to-bg"></div>
           )}
 
-          <!-- Top-Left Profile Avatar Circle with Blue Ring -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+
+          <div class="absolute bottom-2.5 left-2.5 right-2.5 z-10">
+            <p class="text-white text-[11px] font-medium leading-tight line-clamp-2 drop-shadow-md">
+              {video.title}
+            </p>
+          </div>
+
           <div class="absolute top-2.5 left-2.5 z-10">
-            <div class="dash-story-ring w-8 h-8 rounded-full bg-black border-2 border-blue-500 p-0.5 shadow-lg flex items-center justify-center overflow-hidden">
+            <div class="w-8 h-8 rounded-full bg-black border-2 border-accent/60 p-0.5 shadow-lg flex items-center justify-center overflow-hidden">
               <img src="/images/logo_connect_letras.svg" alt="Connect" class="w-full h-full object-contain p-0.5" />
             </div>
           </div>
 
-          <!-- Video Play Icon Badge -->
-          {story.video && (
-            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors pointer-events-none">
-            </div>
-          )}
-
-        </button>
+          <div class="absolute top-2.5 right-2.5 z-10">
+            <span class="px-1.5 py-0.5 bg-black/70 text-[9px] uppercase tracking-wider text-accent font-medium border border-accent/30 rounded">
+              Video
+            </span>
+          </div>
+        </a>
       ))}
     </div>
   </div>
@@ -218,11 +237,8 @@ const stories = await getStories();
   </div>
 </section>
 
-<!-- Client Script for Member Dashboard Hydration, Carousel Scrolling & Story Modal -->
+<!-- Client Script for Member Dashboard Hydration -->
 <script>
-  import { openStoryViewer } from "./StoryViewer";
-  import { getSeenStories, markStorySeen } from "../lib/seenStories";
-
   function initMemberDashboard() {
     const userJson = localStorage.getItem("connect_user");
     if (!userJson) return;
@@ -252,64 +268,6 @@ const stories = await getStories();
     }
 
   }
-
-  // Story seen-state + reorder queue (Facebook-style)
-  const reelContainer = document.getElementById("stories-reel-container");
-  const seenSet = new Set(getSeenStories());
-
-  const syncSeenRings = () => {
-    document.querySelectorAll<HTMLElement>(".dash-story-item").forEach((item) => {
-      const id = item.getAttribute("data-id");
-      const ring = item.querySelector<HTMLElement>(".dash-story-ring");
-      if (!ring) return;
-      if (id && seenSet.has(id)) {
-        ring.classList.remove("border-blue-500");
-        ring.classList.add("border-white/20");
-      }
-    });
-  };
-
-  const reorderQueue = () => {
-    if (!reelContainer) return;
-    const items = Array.from(reelContainer.children) as HTMLElement[];
-    const checked = new Set<string>();
-    items.forEach((item) => {
-      const id = item.getAttribute("data-id");
-      if (!id || checked.has(id)) return;
-      checked.add(id);
-      if (seenSet.has(id)) reelContainer.appendChild(item);
-    });
-    syncSeenRings();
-  };
-
-  syncSeenRings();
-  reorderQueue();
-
-  // Story Item Modal Click Handler
-  document.querySelectorAll(".dash-story-item").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const items = Array.from(document.querySelectorAll(".dash-story-item"));
-      const startIdx = Math.max(0, items.indexOf(btn));
-      const viewerItems = items.map((b) => ({
-        video: b.getAttribute("data-video") || null,
-        imagen: b.getAttribute("data-imagen") || null,
-        duracion_s: Number(b.getAttribute("data-duracion")) || null,
-      }));
-      openStoryViewer(viewerItems, startIdx, (currentIdx) => {
-        const current = items[currentIdx];
-        const currentId = current?.getAttribute("data-id");
-        if (currentId) {
-          markStorySeen(currentId);
-          seenSet.add(currentId);
-          const ring = current?.querySelector(".dash-story-ring");
-          if (ring) {
-            ring.classList.remove("border-blue-500");
-            ring.classList.add("border-white/20");
-          }
-        }
-      });
-    });
-  });
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initMemberDashboard);

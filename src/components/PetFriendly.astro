@@ -111,122 +111,64 @@ export const normasPetFriendly = [
     </div>
   </div>
 
-  <!-- Desktop Rules Grid (Visible on md and larger) -->
-  <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
-    {normasPetFriendly.map((norma) => (
-      <div
-        class={`group p-6 bg-surface/80 border backdrop-blur-md transition-all duration-300 relative flex flex-col justify-between hover:translate-y-[-2px] ${
-          norma.destacado
-            ? "border-amber-500/50 bg-amber-500/5 hover:border-amber-400 shadow-lg shadow-amber-500/5"
-            : "border-white/10 hover:border-white/25 hover:bg-surface"
-        }`}
-      >
-        <div class="space-y-3">
-          <!-- Top Card Meta -->
-          <div class="flex items-center justify-between">
-            <span class={`inline-flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold ${
-              norma.destacado
-                ? "bg-amber-500 text-bg"
-                : "bg-white/10 text-amber-400 group-hover:bg-amber-500/20"
-            }`}>
-              {norma.num < 10 ? `0${norma.num}` : norma.num}
-            </span>
+  <!-- Carousel with navigation arrows -->
+  <div class="relative pt-2">
+    <!-- Prev Arrow -->
+    <button
+      id="pet-carousel-prev"
+      class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-surface/90 border border-white/20 flex items-center justify-center text-text hover:bg-white/10 active:scale-95 transition-all hidden sm:flex"
+      aria-label="Norma Anterior"
+    >
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+      </svg>
+    </button>
 
-            {norma.destacado && (
-              <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold">
-                Importante
-              </span>
-            )}
-          </div>
-
-          <!-- Rule Content -->
-          <div>
-            <h3 class="text-base font-semibold text-text uppercase tracking-wide group-hover:text-amber-400 transition-colors leading-snug">
-              {norma.titulo}
-            </h3>
-            <p class="text-xs sm:text-sm text-text-muted font-light leading-relaxed mt-2">
-              {norma.desc}
-            </p>
-          </div>
-        </div>
-      </div>
-    ))}
-  </div>
-
-  <!-- Mobile Rules Carousel (Visible on screens smaller than md) -->
-  <div class="block md:hidden pt-2 space-y-4">
-    <!-- Carousel Control Bar & Hint -->
-    <div class="flex items-center justify-between px-1">
-      <span class="text-[11px] uppercase tracking-wider text-text-muted font-medium flex items-center gap-1.5">
-        <span>Desliza para ver más normas</span>
-        <svg class="w-3.5 h-3.5 text-amber-400 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-        </svg>
-      </span>
-
-      <!-- Navigation Arrows -->
-      <div class="flex items-center gap-2">
-        <button
-          id="pet-carousel-prev"
-          class="w-8 h-8 rounded-full bg-surface border border-white/20 flex items-center justify-center text-text hover:bg-white/10 active:scale-95 transition-all"
-          aria-label="Norma Anterior"
-        >
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-          </svg>
-        </button>
-        <button
-          id="pet-carousel-next"
-          class="w-8 h-8 rounded-full bg-surface border border-amber-500/40 flex items-center justify-center text-amber-400 hover:bg-amber-500/20 active:scale-95 transition-all"
-          aria-label="Siguiente Norma"
-        >
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-          </svg>
-        </button>
-      </div>
-    </div>
+    <!-- Next Arrow -->
+    <button
+      id="pet-carousel-next"
+      class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-surface/90 border border-amber-500/40 flex items-center justify-center text-amber-400 hover:bg-amber-500/20 active:scale-95 transition-all hidden sm:flex"
+      aria-label="Siguiente Norma"
+    >
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+      </svg>
+    </button>
 
     <!-- Scrollable Snap Container -->
     <div
       id="pet-carousel-container"
-      class="flex overflow-x-auto snap-x snap-mandatory scrollbar-none gap-4 py-2 px-1 scroll-smooth"
+      class="flex overflow-x-auto snap-x snap-mandatory gap-4 py-2 scrollbar-none scroll-smooth sm:px-12"
       style="-webkit-overflow-scrolling: touch;"
     >
       {normasPetFriendly.map((norma) => (
         <div
-          class={`min-w-[85vw] max-w-[85vw] snap-center flex-shrink-0 p-6 bg-surface/90 border backdrop-blur-md flex flex-col justify-between space-y-4 ${
+          class={`pet-card flex-shrink-0 snap-center p-6 bg-surface/90 border backdrop-blur-md transition-all duration-300 ${
             norma.destacado
               ? "border-amber-500/50 bg-amber-500/5 shadow-lg shadow-amber-500/5"
-              : "border-white/10"
+              : "border-white/10 hover:border-white/25 hover:bg-surface"
           }`}
+          style="width: min(85vw, 360px);"
         >
-          <div class="flex items-center justify-between border-b border-white/10 pb-3">
-            <div class="flex items-center gap-2">
-              <span class={`inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold ${
-                norma.destacado
-                  ? "bg-amber-500 text-bg"
-                  : "bg-white/10 text-amber-400"
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class={`inline-flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold ${
+                norma.destacado ? "bg-amber-500 text-bg" : "bg-white/10 text-amber-400"
               }`}>
                 {norma.num < 10 ? `0${norma.num}` : norma.num}
               </span>
-              <span class="text-[11px] text-text-muted font-light uppercase tracking-wider">Norma {norma.num} de 13</span>
+              {norma.destacado && (
+                <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold">Importante</span>
+              )}
             </div>
-
-            {norma.destacado && (
-              <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold">
-                Importante
-              </span>
-            )}
-          </div>
-
-          <div class="space-y-2 py-1">
-            <h3 class="text-base font-semibold text-text uppercase tracking-wide text-amber-400 leading-snug">
-              {norma.titulo}
-            </h3>
-            <p class="text-xs text-text-muted font-light leading-relaxed">
-              {norma.desc}
-            </p>
+            <div>
+              <h3 class="text-base font-semibold text-text uppercase tracking-wide group-hover:text-amber-400 transition-colors leading-snug">
+                {norma.titulo}
+              </h3>
+              <p class="text-xs sm:text-sm text-text-muted font-light leading-relaxed mt-2">
+                {norma.desc}
+              </p>
+            </div>
           </div>
         </div>
       ))}
@@ -252,14 +194,13 @@ export const normasPetFriendly = [
         </p>
       </div>
     </div>
-
     <a
       href="https://wa.me/59177254022?text=Hola%20Connect,%20quisiera%20registrar%20a%20mi%20mascota"
       target="_blank"
       rel="noopener noreferrer"
       class="inline-flex items-center gap-2 px-5 py-3 bg-amber-500 hover:bg-amber-400 text-bg font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-lg flex-shrink-0"
     >
-      <span>Inscribir a mi mascota 🐾</span>
+      <span>Inscribir a mi mascota</span>
     </a>
   </div>
 </section>
@@ -271,12 +212,13 @@ export const normasPetFriendly = [
     const nextBtn = document.getElementById('pet-carousel-next');
 
     if (container && prevBtn && nextBtn) {
-      prevBtn.addEventListener('click', () => {
-        container.scrollBy({ left: -container.clientWidth * 0.85, behavior: 'smooth' });
-      });
+      const scrollAmount = () => container.clientWidth > 0 ? container.clientWidth * 0.85 : 360;
 
+      prevBtn.addEventListener('click', () => {
+        container.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+      });
       nextBtn.addEventListener('click', () => {
-        container.scrollBy({ left: container.clientWidth * 0.85, behavior: 'smooth' });
+        container.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
       });
     }
   });

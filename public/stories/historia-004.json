@@ -1,10 +1,8 @@
 {
-  "id": 4,
-  "story_card_id": "997984946616708",
-  "media_id": "1071199208766183",
-  "media_type": "photo",
+  "id": "004",
   "video": null,
   "imagen": "historia-004.jpg",
+  "media_type": "photo",
   "duracion_s": null,
-  "fechaDescarga": "2026-08-11T15:48:58.275Z"
+  "fechaDescarga": "2026-08-11T19:15:16.716Z"
 }

@@ -17,6 +17,14 @@ export interface StoryManifestEntry {
   duracion_s?: number | null;
 }
 
+export interface GymVideo {
+  id: string;
+  title: string;
+  thumbnail?: string;
+  created_time: string;
+  permalink_url: string;
+}
+
 export interface GymPost {
   id: string;
   message: string;
@@ -179,5 +187,79 @@ export async function getPosts(): Promise<GymPost[]> {
   } catch (err) {
     console.error("[facebook] getPosts network error", err);
     return DEMO_POSTS;
+  }
+}
+
+const DEMO_VIDEOS: GymVideo[] = [
+  {
+    id: "v1",
+    title: "Desafio de Verano - Clase Especial",
+    thumbnail: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=400",
+    created_time: "2026-08-08T15:00:00Z",
+    permalink_url: "https://www.facebook.com/reel/2096760101718303",
+  },
+  {
+    id: "v2",
+    title: "Rutina de Fuerza - Técnica de Sentadilla",
+    thumbnail: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=400",
+    created_time: "2026-08-05T10:30:00Z",
+    permalink_url: "https://www.facebook.com/profile.php?id=100076283411100",
+  },
+  {
+    id: "v3",
+    title: "Clase de Spinning - Energía Total",
+    thumbnail: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&q=80&w=400",
+    created_time: "2026-08-02T18:00:00Z",
+    permalink_url: "https://www.facebook.com/profile.php?id=100076283411100",
+  },
+  {
+    id: "v4",
+    title: "Nuevos Equipos - Recorrido",
+    thumbnail: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&q=80&w=400",
+    created_time: "2026-07-28T12:00:00Z",
+    permalink_url: "https://www.facebook.com/profile.php?id=100076283411100",
+  },
+];
+
+export async function getVideos(): Promise<GymVideo[]> {
+  if (!usesLiveFacebook()) {
+    return DEMO_VIDEOS;
+  }
+
+  try {
+    const res = await fetch(
+      `https://graph.facebook.com/v21.0/${FACEBOOK_PAGE_ID}/videos` +
+        `?fields=title,description,created_time,thumbnails{uri},permalink_url` +
+        `&limit=6&access_token=${FACEBOOK_ACCESS_TOKEN}`
+    );
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => null);
+      console.error("[facebook] getVideos failed", err);
+      return DEMO_VIDEOS;
+    }
+
+    const data = (await res.json()) as {
+      data: Array<{
+        id: string;
+        title?: string;
+        created_time: string;
+        permalink_url?: string;
+        thumbnails?: { data?: Array<{ uri: string }> };
+      }>;
+    };
+
+    return data.data
+      .filter((v) => v.permalink_url)
+      .map((v) => ({
+        id: v.id,
+        title: v.title || "Video Connect",
+        thumbnail: v.thumbnails?.data?.[0]?.uri,
+        created_time: v.created_time,
+        permalink_url: v.permalink_url || `https://www.facebook.com/${FACEBOOK_PAGE_ID}/videos/${v.id}`,
+      }));
+  } catch (err) {
+    console.error("[facebook] getVideos network error", err);
+    return DEMO_VIDEOS;
   }
 }

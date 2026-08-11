@@ -73,14 +73,14 @@ import { NOTIFICACIONES } from "./AnnouncementModal.astro";
         data-member-path="/horarios"
         class="header-member-link text-xs uppercase tracking-[0.2em] font-medium text-text-muted hover:text-text transition-colors whitespace-nowrap"
       >
-        Horarios
+        Horarios &amp; Eventos
       </a>
       <a
-        href="/eventos"
-        data-member-path="/eventos"
+        href="/mapa"
+        data-member-path="/mapa"
         class="header-member-link text-xs uppercase tracking-[0.2em] font-medium text-text-muted hover:text-text transition-colors whitespace-nowrap"
       >
-        Eventos
+        Mapa
       </a>
       <a
         href="/perfil"
@@ -265,7 +265,7 @@ import { NOTIFICACIONES } from "./AnnouncementModal.astro";
       <span class="text-[10px] uppercase tracking-wider font-light">Inicio</span>
     </a>
 
-    <!-- Horarios -->
+    <!-- Horarios y Eventos -->
     <a
       href="/horarios"
       class="mobile-nav-item flex flex-col items-center justify-center py-1 text-text-muted hover:text-white transition-all duration-200"
@@ -274,19 +274,19 @@ import { NOTIFICACIONES } from "./AnnouncementModal.astro";
       <svg class="w-5 h-5 mb-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
-      <span class="text-[10px] uppercase tracking-wider font-light">Horarios</span>
+      <span class="text-[10px] uppercase tracking-wider font-light">Actividad</span>
     </a>
 
-    <!-- Eventos -->
+    <!-- Mapa -->
     <a
-      href="/eventos"
+      href="/mapa"
       class="mobile-nav-item flex flex-col items-center justify-center py-1 text-text-muted hover:text-white transition-all duration-200"
-      data-path="/eventos"
+      data-path="/mapa"
     >
       <svg class="w-5 h-5 mb-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z" />
       </svg>
-      <span class="text-[10px] uppercase tracking-wider font-light">Eventos</span>
+      <span class="text-[10px] uppercase tracking-wider font-light">Mapa</span>
     </a>
 
     <!-- Mi perfil / Cuenta -->
@@ -352,21 +352,35 @@ import { NOTIFICACIONES } from "./AnnouncementModal.astro";
         <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <span class="uppercase tracking-wider text-xs">Horarios</span>
+        <span class="uppercase tracking-wider text-xs">Horarios &amp; Eventos</span>
       </div>
       <svg class="w-4 h-4 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
     </a>
 
     <a
-      href="/eventos"
-      data-path="/eventos"
+      href="/horarios"
+      data-path="/horarios"
       class="mobile-drawer-item flex items-center justify-between p-4 rounded-xl bg-surface/70 border border-white/10 text-text font-medium text-sm hover:border-accent/50 transition-all active:scale-[0.98]"
     >
       <div class="flex items-center gap-3">
         <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <span class="uppercase tracking-wider text-xs">Eventos</span>
+        <span class="uppercase tracking-wider text-xs">Horarios &amp; Eventos</span>
+      </div>
+      <svg class="w-4 h-4 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+    </a>
+
+    <a
+      href="/mapa"
+      data-path="/mapa"
+      class="mobile-drawer-item flex items-center justify-between p-4 rounded-xl bg-surface/70 border border-white/10 text-text font-medium text-sm hover:border-accent/50 transition-all active:scale-[0.98]"
+    >
+      <div class="flex items-center gap-3">
+        <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z" />
+        </svg>
+        <span class="uppercase tracking-wider text-xs">Mapa</span>
       </div>
       <svg class="w-4 h-4 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
     </a>
@@ -442,7 +456,9 @@ import { NOTIFICACIONES } from "./AnnouncementModal.astro";
       let isActive = false;
       if (path === "/" && (currentPath === "/" || currentPath === "")) {
         isActive = true;
-      } else if (path && path !== "/" && currentPath.startsWith(path)) {
+      } else if (path === "/horarios" && (currentPath.startsWith("/horarios") || currentPath.startsWith("/eventos"))) {
+        isActive = true;
+      } else if (path && path !== "/" && path !== "/horarios" && currentPath.startsWith(path)) {
         isActive = true;
       }
 
@@ -459,7 +475,9 @@ import { NOTIFICACIONES } from "./AnnouncementModal.astro";
       let isActive = false;
       if (path === "/" && (currentPath === "/" || currentPath === "")) {
         isActive = true;
-      } else if (path && path !== "/" && currentPath.startsWith(path)) {
+      } else if (path === "/horarios" && (currentPath.startsWith("/horarios") || currentPath.startsWith("/eventos"))) {
+        isActive = true;
+      } else if (path && path !== "/" && path !== "/horarios" && currentPath.startsWith(path)) {
         isActive = true;
       }
 
@@ -647,7 +665,9 @@ import { NOTIFICACIONES } from "./AnnouncementModal.astro";
     let isActive = false;
     if (path === "/" && (currentPath === "/" || currentPath === "")) {
       isActive = true;
-    } else if (path && path !== "/" && currentPath.startsWith(path)) {
+    } else if (path === "/horarios" && (currentPath.startsWith("/horarios") || currentPath.startsWith("/eventos"))) {
+      isActive = true;
+    } else if (path && path !== "/" && path !== "/horarios" && currentPath.startsWith(path)) {
       isActive = true;
     } else if (path === "/perfil" && (currentPath.startsWith("/login") || currentPath.startsWith("/perfil"))) {
       isActive = true;
