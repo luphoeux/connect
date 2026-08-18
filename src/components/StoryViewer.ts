@@ -42,6 +42,10 @@ export function openStoryViewer(
     <div class="story-tap-right absolute top-0 bottom-0 right-0 w-1/3 z-20"></div>
   `;
 
+  if (window.history?.state?.storyViewer !== true) {
+    history.pushState({ storyViewer: true }, "");
+  }
+
   document.body.appendChild(overlay);
   requestAnimationFrame(() => {
     overlay.style.opacity = "1";
@@ -149,6 +153,7 @@ export function openStoryViewer(
     destroyed = true;
     stop();
     document.removeEventListener("keydown", onKey);
+    window.removeEventListener("popstate", onPopState);
     overlay.style.opacity = "0";
     window.setTimeout(() => overlay.remove(), 200);
   };
@@ -159,6 +164,13 @@ export function openStoryViewer(
     else if (e.key === "Escape") close();
   };
   document.addEventListener("keydown", onKey);
+
+  const onPopState = () => {
+    if (destroyed) return;
+    close();
+    history.pushState({ storyViewer: true }, "");
+  };
+  window.addEventListener("popstate", onPopState);
 
   overlay.querySelector(".story-tap-right")!.addEventListener("click", next);
   overlay.querySelector(".story-tap-left")!.addEventListener("click", prev);

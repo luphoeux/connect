@@ -3,9 +3,13 @@ import "../styles/global.css";
 import Header from "../components/Header.astro";
 import AnnouncementModal from "../components/AnnouncementModal.astro";
 import FloatingActions from "../components/FloatingActions.astro";
+import Footer from "../components/Footer.astro";
 
-const { title } = Astro.props;
+const { title, description } = Astro.props;
 const fullTitle = title ? `${title} — Connect Health & Fitness` : "Connect Health & Fitness";
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || "https://connect-health-fitness.vercel.app";
+const pageDescription = description || "Centro de entrenamiento premium. Conoce tu cuenta, planes y horarios. Gimnasio, clases grupales y zona pet friendly en La Paz, Bolivia.";
+const canonical = siteUrl + Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -15,7 +19,23 @@ const fullTitle = title ? `${title} — Connect Health & Fitness` : "Connect Hea
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
     <title>{fullTitle}</title>
-    <meta name="description" content="Centro de entrenamiento premium. Conoce tu cuenta, planes y horarios." />
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Connect Health & Fitness" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${siteUrl}/og-image.jpg`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="es_BO" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={`${siteUrl}/og-image.jpg`} />
 
     <!-- Browser Theme Color & Mobile Status Bar Styling (Brand Dark #121212) -->
     <meta name="theme-color" content="#121212" />
@@ -27,6 +47,48 @@ const fullTitle = title ? `${title} — Connect Health & Fitness` : "Connect Hea
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Datos estructurados: gimnasio (LocalBusiness) -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "HealthClub",
+      name: "Connect Health & Fitness",
+      description: "Centro de entrenamiento premium en la Zona Sur de La Paz: gimnasio, clases grupales, spinning y zona pet friendly.",
+      url: siteUrl,
+      logo: `${siteUrl}/images/logo_connect.svg`,
+      image: `${siteUrl}/og-image.jpg`,
+      telephone: "+59177254022",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Mall Plaza 21, Piso 3, San Miguel",
+        addressLocality: "La Paz",
+        addressCountry: "BO",
+      },
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          opens: "06:00",
+          closes: "23:00",
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: "Saturday",
+          opens: "08:00",
+          closes: "20:00",
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: "Sunday",
+          opens: "09:00",
+          closes: "15:00",
+        },
+      ],
+      sameAs: [
+        "https://www.facebook.com/profile.php?id=100076283411100",
+        "https://www.instagram.com/connect.bo/",
+      ],
+    })} />
   </head>
   <body class="bg-bg text-text antialiased min-h-screen flex flex-col justify-between">
     <AnnouncementModal />
@@ -34,6 +96,7 @@ const fullTitle = title ? `${title} — Connect Health & Fitness` : "Connect Hea
     <main class="flex-grow">
       <slot />
     </main>
+    <Footer />
     <FloatingActions />
   </body>
 </html>

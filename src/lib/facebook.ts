@@ -79,7 +79,7 @@ const DEMO_POSTS: GymPost[] = [
   {
     id: "p1",
     message:
-      "El Desafío de Verano ya está en marcha. 8 semanas de entrenamiento intensivo, seguimiento semanal y una comunidad que te empuja. Consultá en recepción cómo sumarte.",
+      "El Desafío de Verano ya está en marcha. 8 semanas de entrenamiento intensivo, seguimiento semanal y una comunidad que te empuja. Consulta en recepción cómo sumarte.",
     image: "linear-gradient(160deg, #2b2b2b 0%, #121212 100%)",
     created_time: "2026-08-08T15:00:00Z",
     permalink_url: "https://www.facebook.com/profile.php?id=100076283411100",
@@ -87,7 +87,7 @@ const DEMO_POSTS: GymPost[] = [
   {
     id: "p2",
     message:
-      "Horarios de agosto. Mismo empuje, más flexibilidad. Recordá que tu plan se valida con tu carnet en la entrada.",
+      "Horarios de agosto. Mismo empuje, más flexibilidad. Recuerda que tu plan se valida con tu carnet en la entrada.",
     image: "linear-gradient(160deg, #e68842 0%, #7a3f14 100%)",
     created_time: "2026-08-05T20:30:00Z",
     permalink_url: "https://www.facebook.com/profile.php?id=100076283411100",
@@ -105,6 +105,20 @@ const DEMO_POSTS: GymPost[] = [
 import fs from "node:fs";
 import path from "node:path";
 
+// Caché en memoria con TTL para evitar golpear la Graph API en cada render (SSR)
+const CACHE_TTL_MS = 10 * 60 * 1000;
+const responseCache = new Map<string, { timestamp: number; promise: Promise<unknown> }>();
+
+function cached<T>(key: string, fetcher: () => Promise<T>): Promise<T> {
+  const hit = responseCache.get(key);
+  if (hit && Date.now() - hit.timestamp < CACHE_TTL_MS) {
+    return hit.promise as Promise<T>;
+  }
+  const promise = fetcher();
+  responseCache.set(key, { timestamp: Date.now(), promise });
+  return promise;
+}
+
 export function usesLiveFacebook(): boolean {
   return Boolean(FACEBOOK_PAGE_ID && FACEBOOK_ACCESS_TOKEN);
 }
@@ -118,24 +132,26 @@ export async function getStories(): Promise<GymStory[]> {
 }
 
 export async function getDownloadedStories(): Promise<GymStory[]> {
-  try {
-    const jsonPath = path.join(process.cwd(), "public", "stories", "index.json");
-    if (!fs.existsSync(jsonPath)) return [];
-    const content = fs.readFileSync(jsonPath, "utf-8");
-    const entries: StoryManifestEntry[] = JSON.parse(content);
-    return entries.map((entry, i) => ({
-      id: entry.id,
-      title: entry.video ? `Historia · Video` : `Historia · Foto`,
-      date: formatManifestDate(entry.fechaDescarga),
-      gradient: i % 2 === 0 ? "linear-gradient(160deg, #3a3a3a 0%, #1d1d1d 100%)" : "linear-gradient(160deg, #2b2b2b 0%, #121212 100%)",
-      video: entry.video ? `/stories/${entry.video}` : null,
-      imagen: entry.imagen ? `/stories/${entry.imagen}` : null,
-      duracion_s: entry.duracion_s ?? null,
-    }));
-  } catch (err) {
-    console.error("[facebook] error reading stories index.json", err);
-    return [];
-  }
+  return cached("stories", async () => {
+    try {
+      const jsonPath = path.join(process.cwd(), "public", "stories", "index.json");
+      if (!fs.existsSync(jsonPath)) return [];
+      const content = fs.readFileSync(jsonPath, "utf-8");
+      const entries: StoryManifestEntry[] = JSON.parse(content);
+      return entries.map((entry, i) => ({
+        id: entry.id,
+        title: entry.video ? `Historia · Video` : `Historia · Foto`,
+        date: formatManifestDate(entry.fechaDescarga),
+        gradient: i % 2 === 0 ? "linear-gradient(160deg, #3a3a3a 0%, #1d1d1d 100%)" : "linear-gradient(160deg, #2b2b2b 0%, #121212 100%)",
+        video: entry.video ? `/stories/${entry.video}` : null,
+        imagen: entry.imagen ? `/stories/${entry.imagen}` : null,
+        duracion_s: entry.duracion_s ?? null,
+      }));
+    } catch (err) {
+      console.error("[facebook] error reading stories index.json", err);
+      return [];
+    }
+  });
 }
 
 function formatManifestDate(iso: string | null): string {
@@ -154,40 +170,42 @@ export async function getPosts(): Promise<GymPost[]> {
     return DEMO_POSTS;
   }
 
-  try {
-    const res = await fetch(
-      `https://graph.facebook.com/v21.0/${FACEBOOK_PAGE_ID}/posts` +
-        `?fields=message,created_time,permalink_url,full_picture` +
-        `&limit=6&access_token=${FACEBOOK_ACCESS_TOKEN}`
-    );
+  return cached("posts", async () => {
+    try {
+      const res = await fetch(
+        `https://graph.facebook.com/v21.0/${FACEBOOK_PAGE_ID}/posts` +
+          `?fields=message,created_time,permalink_url,full_picture` +
+          `&limit=6&access_token=${FACEBOOK_ACCESS_TOKEN}`
+      );
 
-    if (!res.ok) {
-      const err = await res.json().catch(() => null);
-      console.error("[facebook] getPosts failed", err);
+      if (!res.ok) {
+        const err = await res.json().catch(() => null);
+        console.error("[facebook] getPosts failed", err);
+        return DEMO_POSTS;
+      }
+
+      const data = (await res.json()) as { data: Array<{
+        id: string;
+        message?: string;
+        created_time: string;
+        permalink_url?: string;
+        full_picture?: string;
+      }> };
+
+      return data.data
+        .filter((p) => p.message || p.full_picture)
+        .map((p) => ({
+          id: p.id,
+          message: p.message ?? "",
+          image: p.full_picture,
+          created_time: p.created_time,
+          permalink_url: p.permalink_url,
+        }));
+    } catch (err) {
+      console.error("[facebook] getPosts network error", err);
       return DEMO_POSTS;
     }
-
-    const data = (await res.json()) as { data: Array<{
-      id: string;
-      message?: string;
-      created_time: string;
-      permalink_url?: string;
-      full_picture?: string;
-    }> };
-
-    return data.data
-      .filter((p) => p.message || p.full_picture)
-      .map((p) => ({
-        id: p.id,
-        message: p.message ?? "",
-        image: p.full_picture,
-        created_time: p.created_time,
-        permalink_url: p.permalink_url,
-      }));
-  } catch (err) {
-    console.error("[facebook] getPosts network error", err);
-    return DEMO_POSTS;
-  }
+  });
 }
 
 const DEMO_VIDEOS: GymVideo[] = [
@@ -226,40 +244,42 @@ export async function getVideos(): Promise<GymVideo[]> {
     return DEMO_VIDEOS;
   }
 
-  try {
-    const res = await fetch(
-      `https://graph.facebook.com/v21.0/${FACEBOOK_PAGE_ID}/videos` +
-        `?fields=title,description,created_time,thumbnails{uri},permalink_url` +
-        `&limit=6&access_token=${FACEBOOK_ACCESS_TOKEN}`
-    );
+  return cached("videos", async () => {
+    try {
+      const res = await fetch(
+        `https://graph.facebook.com/v21.0/${FACEBOOK_PAGE_ID}/videos` +
+          `?fields=title,description,created_time,thumbnails{uri},permalink_url` +
+          `&limit=6&access_token=${FACEBOOK_ACCESS_TOKEN}`
+      );
 
-    if (!res.ok) {
-      const err = await res.json().catch(() => null);
-      console.error("[facebook] getVideos failed", err);
+      if (!res.ok) {
+        const err = await res.json().catch(() => null);
+        console.error("[facebook] getVideos failed", err);
+        return DEMO_VIDEOS;
+      }
+
+      const data = (await res.json()) as {
+        data: Array<{
+          id: string;
+          title?: string;
+          created_time: string;
+          permalink_url?: string;
+          thumbnails?: { data?: Array<{ uri: string }> };
+        }>;
+      };
+
+      return data.data
+        .filter((v) => v.permalink_url)
+        .map((v) => ({
+          id: v.id,
+          title: v.title || "Video Connect",
+          thumbnail: v.thumbnails?.data?.[0]?.uri,
+          created_time: v.created_time,
+          permalink_url: v.permalink_url || `https://www.facebook.com/${FACEBOOK_PAGE_ID}/videos/${v.id}`,
+        }));
+    } catch (err) {
+      console.error("[facebook] getVideos network error", err);
       return DEMO_VIDEOS;
     }
-
-    const data = (await res.json()) as {
-      data: Array<{
-        id: string;
-        title?: string;
-        created_time: string;
-        permalink_url?: string;
-        thumbnails?: { data?: Array<{ uri: string }> };
-      }>;
-    };
-
-    return data.data
-      .filter((v) => v.permalink_url)
-      .map((v) => ({
-        id: v.id,
-        title: v.title || "Video Connect",
-        thumbnail: v.thumbnails?.data?.[0]?.uri,
-        created_time: v.created_time,
-        permalink_url: v.permalink_url || `https://www.facebook.com/${FACEBOOK_PAGE_ID}/videos/${v.id}`,
-      }));
-  } catch (err) {
-    console.error("[facebook] getVideos network error", err);
-    return DEMO_VIDEOS;
-  }
+  });
 }

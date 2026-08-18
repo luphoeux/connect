@@ -1,64 +1,25 @@
 ---
-// Centralized Announcements & Notifications Data (Last 2 Months)
-export const NOTIFICACIONES = [
-  {
-    id: "feriado-agosto-1",
-    fecha: "2026-08-05",
-    fechaFormateada: "5 de Agosto",
-    titulo: "CLASES FERIADO (1/2)",
-    subtitulo: "6 - 7 DE AGOSTO",
-    resumen: "Pilates: Jueves 08:00 | Viernes 09:00",
-    clases: [
-      { disciplina: "PILATES", hora: "08:00", dia: "JUEVES" },
-      { disciplina: "PILATES", hora: "09:00", dia: "VIERNES" },
-    ],
-    footer: "TRAIN WITH US, CONNECT WITH YOURSELF",
-  },
-  {
-    id: "feriado-agosto-2",
-    fecha: "2026-08-05",
-    fechaFormateada: "5 de Agosto",
-    titulo: "CLASES FERIADO (2/2)",
-    subtitulo: "6 - 7 DE AGOSTO",
-    resumen: "Body Combat: Jue 10:30 | Core: Vie 10:00 | Comercial Dance: Vie 11:00",
-    clases: [
-      { disciplina: "BODY COMBAT", hora: "10:30", dia: "JUEVES" },
-      { disciplina: "CORE", hora: "10:00", dia: "VIERNES" },
-      { disciplina: "COMERCIAL DANCE", hora: "11:00", dia: "VIERNES" },
-    ],
-    footer: "TRAIN WITH US, CONNECT WITH YOURSELF",
-  },
-  {
-    id: "desafio-verano",
-    fecha: "2026-07-20",
-    fechaFormateada: "20 de Julio",
-    titulo: "DESAFÍO DE VERANO",
-    subtitulo: "INSCRIPCIONES ABIERTAS",
-    resumen: "8 semanas de entrenamiento intensivo y evaluación nutricional.",
-    clases: [
-      { disciplina: "TODAS LAS DISCIPLINAS", hora: "06:00 - 23:00", dia: "LUN - SÁB" },
-    ],
-    footer: "TRANSFORMÁ TU CUERPO EN CONNECT",
-  },
-];
+import { NOTIFICACIONES } from "../lib/notificaciones";
 ---
 
 <!-- Announcement Modal Backdrop -->
 <div
   id="announcement-modal"
   class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md transition-opacity duration-300 opacity-0 pointer-events-none"
+  role="alertdialog"
   aria-modal="true"
-  role="dialog"
+  aria-labelledby="announcement-modal-title"
+  aria-describedby="announcement-modal-desc"
 >
   <!-- Modal Card -->
   <div
-    class="relative w-full max-w-lg bg-[#121212] border border-white/15 shadow-2xl p-6 sm:p-8 text-center text-text overflow-hidden transition-transform duration-300 scale-95"
+    class="relative w-full max-w-lg bg-bg border border-white/15 shadow-2xl p-6 sm:p-8 text-center text-text overflow-hidden transition-transform duration-300 scale-95"
     id="modal-card"
   >
     <!-- Close Button X -->
     <button
       id="close-modal-btn"
-      class="absolute top-4 right-4 z-20 w-8 h-8 flex items-center justify-center text-text-muted hover:text-white bg-white/5 hover:bg-white/10 transition-colors focus:outline-none"
+      class="absolute top-4 right-4 z-20 w-8 h-8 flex items-center justify-center text-text-muted hover:text-white bg-white/5 hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
       aria-label="Cerrar aviso"
     >
       <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -84,7 +45,7 @@ export const NOTIFICACIONES = [
             Aviso Importante
           </span>
 
-          <h2 class="text-2xl sm:text-3xl font-light tracking-[0.2em] uppercase text-text mb-1">
+          <h2 id="announcement-modal-title" class="text-2xl sm:text-3xl font-light tracking-[0.2em] uppercase text-text mb-1">
             {anuncio.titulo}
           </h2>
           <p class="text-accent text-xs sm:text-sm tracking-[0.3em] font-medium mb-8">
@@ -113,7 +74,7 @@ export const NOTIFICACIONES = [
         <div class="flex items-center justify-between mt-6 pt-4 border-t border-white/10">
           <button
             id="prev-slide-btn"
-            class="px-3 py-1.5 bg-white/5 hover:bg-white/10 text-text-muted hover:text-white text-xs uppercase tracking-wider transition-colors flex items-center gap-1"
+            class="px-3 py-1.5 bg-white/5 hover:bg-white/10 text-text-muted hover:text-white text-xs uppercase tracking-wider transition-colors flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-accent"
           >
             ‹ Anterior
           </button>
@@ -131,7 +92,7 @@ export const NOTIFICACIONES = [
 
           <button
             id="next-slide-btn"
-            class="px-3 py-1.5 bg-white/5 hover:bg-white/10 text-text-muted hover:text-white text-xs uppercase tracking-wider transition-colors flex items-center gap-1"
+            class="px-3 py-1.5 bg-white/5 hover:bg-white/10 text-text-muted hover:text-white text-xs uppercase tracking-wider transition-colors flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-accent"
           >
             Siguiente ›
           </button>
@@ -139,11 +100,15 @@ export const NOTIFICACIONES = [
       )}
     </div>
 
+    <p id="announcement-modal-desc" class="sr-only">
+      Aviso importante de Connect Health &amp; Fitness. Puedes navegar entre avisos y cerrar el cuadro de diálogo.
+    </p>
+
     <!-- Confirm / Close CTA Button -->
     <div class="mt-6">
       <button
         id="confirm-modal-btn"
-        class="w-full py-3 bg-white text-bg uppercase text-xs tracking-[0.25em] font-medium hover:bg-white/90 transition-all"
+        class="w-full py-3 bg-white text-bg uppercase text-xs tracking-[0.25em] font-medium hover:bg-white/90 transition-all focus:outline-none focus:ring-2 focus:ring-accent"
       >
         Entendido
       </button>
@@ -151,35 +116,60 @@ export const NOTIFICACIONES = [
   </div>
 </div>
 
-<script>
-  const modal = document.getElementById("announcement-modal") as HTMLDivElement;
-  const modalCard = document.getElementById("modal-card") as HTMLDivElement;
-  const closeBtn = document.getElementById("close-modal-btn") as HTMLButtonElement;
-  const confirmBtn = document.getElementById("confirm-modal-btn") as HTMLButtonElement;
+<script is:inline define:vars={{ NOTIFICACIONES }}>
+  const modal = document.getElementById("announcement-modal");
+  const modalCard = document.getElementById("modal-card");
+  const closeBtn = document.getElementById("close-modal-btn");
+  const confirmBtn = document.getElementById("confirm-modal-btn");
 
   const slides = document.querySelectorAll(".announcement-slide");
   const dots = document.querySelectorAll(".dot-btn");
-  const prevBtn = document.getElementById("prev-slide-btn") as HTMLButtonElement;
-  const nextBtn = document.getElementById("next-slide-btn") as HTMLButtonElement;
+  const prevBtn = document.getElementById("prev-slide-btn");
+  const nextBtn = document.getElementById("next-slide-btn");
 
   let currentSlide = 0;
+  let lastFocused = null;
 
-  function markCurrentAsRead() {
-    const currentSlideEl = slides[currentSlide];
-    if (currentSlideEl) {
-      const id = currentSlideEl.getAttribute("data-id");
-      if (id) {
-        let readNotifs = JSON.parse(localStorage.getItem("read_notifs") || "[]");
-        if (!readNotifs.includes(id)) {
-          readNotifs.push(id);
-          localStorage.setItem("read_notifs", JSON.stringify(readNotifs));
-          window.dispatchEvent(new Event("notifs-updated"));
-        }
-      }
+  const READ_KEY = "read_notifs";
+  const CLOSED_KEY = "announcement_closed_";
+
+  function getReadNotifs() {
+    try {
+      return JSON.parse(localStorage.getItem(READ_KEY) || "[]");
+    } catch {
+      return [];
     }
   }
 
-  function showSlide(index: number) {
+  function isClosedForSession(id) {
+    try {
+      return sessionStorage.getItem(CLOSED_KEY + id) === "true";
+    } catch {
+      return false;
+    }
+  }
+
+  function markClosedForSession(id) {
+    try {
+      sessionStorage.setItem(CLOSED_KEY + id, "true");
+    } catch {}
+  }
+
+  function markCurrentAsRead() {
+    const currentSlideEl = slides[currentSlide];
+    if (!currentSlideEl) return;
+    const id = currentSlideEl.getAttribute("data-id");
+    if (!id) return;
+
+    const readNotifs = getReadNotifs();
+    if (!readNotifs.includes(id)) {
+      readNotifs.push(id);
+      localStorage.setItem(READ_KEY, JSON.stringify(readNotifs));
+      window.dispatchEvent(new Event("notifs-updated"));
+    }
+  }
+
+  function showSlide(index) {
     if (slides.length === 0) return;
     currentSlide = (index + slides.length) % slides.length;
 
@@ -206,9 +196,12 @@ export const NOTIFICACIONES = [
 
   function openModal(targetIndex = 0) {
     showSlide(targetIndex);
+    lastFocused = document.activeElement;
     modal.classList.remove("opacity-0", "pointer-events-none");
     modalCard.classList.remove("scale-95");
     modalCard.classList.add("scale-100");
+    document.body.style.overflow = "hidden";
+    closeBtn?.focus();
   }
 
   function closeModal() {
@@ -216,33 +209,75 @@ export const NOTIFICACIONES = [
     modal.classList.add("opacity-0", "pointer-events-none");
     modalCard.classList.remove("scale-100");
     modalCard.classList.add("scale-95");
+    document.body.style.overflow = "";
+    lastFocused?.focus();
   }
 
-  // Open modal automatically on entrance if unread popup exists
-  if (!sessionStorage.getItem("special_schedule_closed")) {
-    setTimeout(() => openModal(0), 600);
+  function getUnseenIndex() {
+    const readNotifs = getReadNotifs();
+    const idx = NOTIFICACIONES.findIndex((n) => !readNotifs.includes(n.id));
+    return idx >= 0 ? idx : 0;
+  }
+
+  // Auto-open on home page only, if there are unread announcements for this session
+  if (window.location.pathname === "/") {
+    const hasUnseen = NOTIFICACIONES.some((n) => !getReadNotifs().includes(n.id));
+    const anyOpenThisSession = NOTIFICACIONES.some((n) => isClosedForSession(n.id));
+    if (hasUnseen && !anyOpenThisSession) {
+      setTimeout(() => openModal(getUnseenIndex()), 600);
+    }
   }
 
   // Listen to custom event from Header notifications dropdown
-  window.addEventListener("open-announcement-modal", (e: any) => {
+  window.addEventListener("open-announcement-modal", (e) => {
     const targetIndex = e.detail?.index ?? 0;
     openModal(targetIndex);
   });
 
   closeBtn?.addEventListener("click", () => {
-    sessionStorage.setItem("special_schedule_closed", "true");
+    markClosedForSession(slides[currentSlide]?.getAttribute("data-id") || "");
     closeModal();
   });
 
   confirmBtn?.addEventListener("click", () => {
-    sessionStorage.setItem("special_schedule_closed", "true");
+    markClosedForSession(slides[currentSlide]?.getAttribute("data-id") || "");
     closeModal();
   });
 
   modal?.addEventListener("click", (e) => {
     if (e.target === modal) {
-      sessionStorage.setItem("special_schedule_closed", "true");
+      markClosedForSession(slides[currentSlide]?.getAttribute("data-id") || "");
       closeModal();
+    }
+  });
+
+  // Close with Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modal.classList.contains("opacity-0")) {
+      markClosedForSession(slides[currentSlide]?.getAttribute("data-id") || "");
+      closeModal();
+    }
+  });
+
+  // Focus trap: keep focus inside the dialog while open
+  modal?.addEventListener("keydown", (e) => {
+    if (e.key !== "Tab" || modal.classList.contains("opacity-0")) return;
+    const focusable = Array.from(
+      modal.querySelectorAll(
+        'button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter((el) => el.offsetParent !== null);
+
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
     }
   });
 

@@ -1,160 +1,6 @@
 ---
 // Componente de Horarios & Planes para Single Page Landing
-export const horariosGenerales = [
-  {
-    dia: "Lunes a Viernes",
-    hora: "06:00 a 23:00",
-    nota: "Atención Continua",
-    days: "1,2,3,4,5",
-  },
-  {
-    dia: "Sábados",
-    hora: "08:00 a 20:00",
-    nota: "Atención Continua",
-    days: "6",
-  },
-  {
-    dia: "Domingos y Feriados",
-    hora: "09:00 a 15:00",
-    nota: "Horario Especial",
-    days: "0",
-  },
-];
-
-export const planesData = [
-  {
-    id: "sesion-individual",
-    nombre: "PASE DIARIO",
-    precio: "Bs. 50",
-    periodo: "1 día de acceso",
-    caracteristicas: [
-      "Acceso completo por 1 día",
-      "Gimnasio & Musculación",
-      "Uso de lockers y vestuarios",
-    ],
-    destacado: false,
-    badge: null as string | null,
-  },
-  {
-    id: "pase-semanal",
-    nombre: "PASE SEMANAL",
-    precio: "Bs. 170",
-    periodo: "7 días consecutivos",
-    caracteristicas: [
-      "Acceso ilimitado por 7 días",
-      "Gimnasio & Musculación",
-      "Clases grupales incluidas",
-      "Sin compromiso mensual",
-    ],
-    destacado: false,
-    badge: null as string | null,
-  },
-  {
-    id: "plan-connect",
-    nombre: "PLAN CONNECT",
-    precio: "Bs. 399",
-    periodo: "Mensual",
-    caracteristicas: [
-      "Gimnasio & Musculación",
-      "Clases grupales ilimitadas",
-      "Evaluación mensual",
-      "Invitado gratis cada viernes",
-      "Acceso a GO by Connect (Achumani)",
-    ],
-    destacado: true,
-    badge: "★ MÁS ELEGIDO" as string | null,
-  },
-  {
-    id: "plan-viajero",
-    nombre: "PLAN VIAJERO",
-    precio: "Bs. 575",
-    periodo: "30 accesos en 60 días",
-    caracteristicas: [
-      "Tú decides cuándo entrenar",
-      "Más flexibilidad, más resultados",
-      "Acceso a todas las instalaciones",
-      "Ideal para horarios variables",
-    ],
-    destacado: false,
-    badge: null as string | null,
-  },
-];
-
-export const grillaSalon = [
-  {
-    hora: "07:30",
-    lunes: "-",
-    martes: "-",
-    miercoles: "-",
-    jueves: "-",
-    viernes: "Vinyasa Yoga (Karenine)",
-    sabado: "-",
-  },
-  {
-    hora: "09:00",
-    lunes: "-",
-    martes: "Ashtanga Yoga (Marco)",
-    miercoles: "Ashtanga Yoga (Marco)",
-    jueves: "Ashtanga Yoga (Marco)",
-    viernes: "-",
-    sabado: "Body Combat (Cindy)",
-  },
-  {
-    hora: "10:10",
-    lunes: "Zumba (Brandon)",
-    martes: "Pilates (Gabriela)",
-    miercoles: "Zumba (Brandon)",
-    jueves: "Pilates (Gabriela)",
-    viernes: "-",
-    sabado: "Vinyasa Yoga (Karenine 10:30)",
-  },
-  {
-    hora: "11:10",
-    lunes: "Core (Cindy)",
-    martes: "Body Combat (Cindy)",
-    miercoles: "Core (Cindy)",
-    jueves: "Body Combat (Cindy)",
-    viernes: "Core (Cindy)",
-    sabado: "-",
-  },
-  {
-    hora: "16:00",
-    lunes: "Kick Boxing (Niños)",
-    martes: "-",
-    miercoles: "Kick Boxing (Niños)",
-    jueves: "-",
-    viernes: "Kick Boxing (Niños)",
-    sabado: "-",
-  },
-  {
-    hora: "17:00",
-    lunes: "-",
-    martes: "Comercial Dance (Ana)",
-    miercoles: "-",
-    jueves: "Comercial Dance (Ana)",
-    viernes: "-",
-    sabado: "-",
-  },
-  {
-    hora: "18:00",
-    turno: "TURNO TARDE",
-    lunes: "Body Combat (Cindy)",
-    martes: "Zumba (Brandon)",
-    miercoles: "Body Combat (Cindy)",
-    jueves: "Core (Cindy)",
-    viernes: "Zumba (Brandon)",
-    sabado: "-",
-  },
-  {
-    hora: "19:10",
-    lunes: "Vinyasa Yoga (Karenine)",
-    martes: "Hatha Yoga (Gabriela)",
-    miercoles: "Yoga Progresivo (Gabriela)",
-    jueves: "Yoga Flow (Gabriela)",
-    viernes: "Body Combat (Cindy)",
-    sabado: "-",
-  },
-];
+import { horariosGenerales, planesData, grillaSalon, classSlots, grillaDataDays } from "../lib/schedule";
 ---
 
 <section id="horarios" class="pt-4 sm:pt-6 pb-12 sm:pb-16 px-4 sm:px-6 max-w-7xl mx-auto space-y-8 sm:space-y-10">
@@ -247,21 +93,60 @@ export const grillaSalon = [
     <!-- Logged-In Member Plan Status Summary Banner -->
     <div
       id="member-plan-summary-banner"
-      class="hidden mb-6 p-4 sm:p-5 bg-accent/15 border border-accent/40 backdrop-blur-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-[0_0_30px_rgba(230,136,66,0.25)] transition-all"
+      class="hidden mb-8 bg-gradient-to-br from-surface/95 to-bg border border-accent/30 p-6 sm:p-8 backdrop-blur-xl relative overflow-hidden shadow-[0_0_40px_rgba(230,136,66,0.15)] transition-all group"
     >
-      <div class="flex items-center gap-3.5">
-        <div class="w-10 h-10 rounded-full bg-accent text-bg flex items-center justify-center font-bold text-lg flex-shrink-0 shadow-md">
-          ★
+      <!-- Decorative background blur -->
+      <div class="absolute -top-16 -right-16 w-64 h-64 bg-accent/10 rounded-full blur-3xl pointer-events-none group-hover:bg-accent/15 transition-colors duration-500"></div>
+      
+      <div class="relative z-10 flex flex-col sm:flex-row sm:items-start justify-between gap-6">
+        <div class="flex items-start gap-4 sm:gap-5">
+          <!-- Icon -->
+          <div
+            class="w-12 h-12 rounded-full bg-accent/20 border-2 border-accent/40 text-accent flex items-center justify-center font-bold text-xl flex-shrink-0 shadow-[0_0_15px_rgba(230,136,66,0.4)]"
+          >
+            ★
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span class="text-[10px] uppercase tracking-[0.25em] text-emerald-400 font-bold"
+                >Tu Membresía Activa</span
+              >
+            </div>
+            
+            <h3
+              id="member-banner-plan-name"
+              class="text-2xl sm:text-3xl font-light text-text uppercase tracking-[0.1em] mb-1.5"
+            >
+              PLAN CONNECT
+            </h3>
+            
+            <p
+              id="member-banner-exp-date"
+              class="text-xs font-mono font-medium text-text-muted"
+            >
+              Vence: --
+            </p>
+          </div>
         </div>
-        <div>
-          <span class="text-[10px] uppercase tracking-[0.2em] text-accent font-bold block">Tu Membresía Activa</span>
-          <h3 id="member-banner-plan-name" class="text-base sm:text-lg font-medium text-text uppercase tracking-wide">PLAN CONNECT</h3>
+
+        <div class="text-left sm:text-right border-t sm:border-t-0 border-white/10 pt-4 sm:pt-0">
+          <a
+            href="/perfil"
+            class="inline-block bg-white/5 hover:bg-accent hover:text-bg text-text border border-white/10 hover:border-accent text-[10px] sm:text-xs uppercase tracking-[0.2em] font-medium px-5 py-2.5 transition-all duration-300 shadow-lg hover:shadow-[0_0_20px_rgba(230,136,66,0.4)]"
+          >
+            Ver Credencial
+          </a>
         </div>
       </div>
-      <div class="text-left sm:text-right border-t sm:border-t-0 border-white/10 pt-2 sm:pt-0">
-        <span class="text-[9px] uppercase tracking-widest text-text-muted block mb-0.5">Estado de Cuenta</span>
-        <span id="member-banner-exp-date" class="text-xs font-mono font-medium text-accent">ACTIVO • Vence: --</span>
-      </div>
+
+      <div
+        id="member-plan-features"
+        class="hidden relative z-10 border-t border-white/10 pt-5 mt-6"
+      ></div>
     </div>
 
     <!-- Scroll Container (Horizontal snap carousel on mobile, Grid on desktop) -->
@@ -419,7 +304,7 @@ export const grillaSalon = [
             id="live-status-label"
             class="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-accent truncate"
           >
-            ESTADO EN VIVO
+            ESTADO ACTUAL
           </span>
         </div>
 
@@ -604,7 +489,7 @@ export const grillaSalon = [
   </div>
 </section>
 
-<script>
+<script is:inline define:vars={{ classSlots, grillaDataDays, planesData }}>
   // Highlight active day schedule cards
   const today = new Date().getDay();
 
@@ -631,6 +516,39 @@ export const grillaSalon = [
         bannerExpDate.textContent = `ACTIVO • Vence: ${fechaFormateada}`;
       } else if (bannerExpDate) {
         bannerExpDate.textContent = "ACTIVO • Membresía Válida";
+      }
+
+      const plansCarousel = document.getElementById("plans-carousel-container");
+      const plansDots = document.getElementById("plans-dots-container");
+      if (plansCarousel) plansCarousel.classList.add("!hidden");
+      if (plansDots) plansDots.classList.add("!hidden");
+
+      const memberFeatures = document.getElementById("member-plan-features");
+      const activePlan = planesData.find((p) => {
+        const planName = (p.nombre || "").trim().toUpperCase();
+        return planName === userPlanName || userPlanName.includes(planName);
+      });
+      if (memberFeatures) {
+        if (activePlan) {
+          memberFeatures.innerHTML = `
+            <span class="text-[10px] uppercase tracking-[0.2em] text-text-muted block mb-4 font-medium">Beneficios Incluidos:</span>
+            <ul class="grid sm:grid-cols-2 gap-x-8 gap-y-3.5">
+              ${activePlan.caracteristicas
+                .map(
+                  (item) => `
+                <li class="flex items-start gap-3 text-xs sm:text-sm text-text-secondary font-light leading-relaxed">
+                  <svg class="w-4 h-4 text-accent flex-shrink-0 mt-0.5 drop-shadow-[0_0_5px_rgba(230,136,66,0.6)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>${item}</span>
+                </li>
+              `
+                )
+                .join("")}
+            </ul>
+          `;
+          memberFeatures.classList.remove("hidden");
+        }
       }
 
       document.querySelectorAll(".plan-card").forEach((planCard) => {
@@ -690,6 +608,8 @@ export const grillaSalon = [
   }
 
   // Live Class Activator for La Paz, Bolivia (UTC-4)
+  let lastStatusMinute = -1;
+
   function updateLiveClassStatus() {
     const now = new Date();
     const laPazDateStr = now.toLocaleString("en-US", {
@@ -710,6 +630,10 @@ export const grillaSalon = [
       clockEl.textContent = `${hh}:${mm}:${ss}`;
     }
 
+    // The heavy status logic only needs to run once per minute
+    if (totalMinutes === lastStatusMinute) return;
+    lastStatusMinute = totalMinutes;
+
     const titleEl = document.getElementById("current-class-title");
     const labelEl = document.getElementById("live-status-label");
     const nextBadge = document.getElementById("next-class-badge");
@@ -717,97 +641,8 @@ export const grillaSalon = [
     const liveDot = document.getElementById("live-dot");
     const liveDotPing = document.getElementById("live-dot-ping");
 
-    const classSlots: Array<{
-      hora: string;
-      start: number;
-      end: number;
-      days: Record<number, string>;
-    }> = [
-      {
-        hora: "07:30",
-        start: 7 * 60 + 30,
-        end: 8 * 60 + 30,
-        days: { 5: "Vinyasa Yoga (Karenine)" },
-      },
-      {
-        hora: "09:00",
-        start: 9 * 60,
-        end: 10 * 60,
-        days: {
-          2: "Ashtanga Yoga (Marco)",
-          3: "Ashtanga Yoga (Marco)",
-          4: "Ashtanga Yoga (Marco)",
-          6: "Body Combat (Cindy)",
-        },
-      },
-      {
-        hora: "10:10",
-        start: 10 * 60 + 10,
-        end: 11 * 60 + 10,
-        days: {
-          1: "Zumba (Brandon)",
-          2: "Pilates (Gabriela)",
-          3: "Zumba (Brandon)",
-          4: "Pilates (Gabriela)",
-          6: "Vinyasa Yoga (Karenine 10:30)",
-        },
-      },
-      {
-        hora: "11:10",
-        start: 11 * 60 + 10,
-        end: 12 * 60 + 10,
-        days: {
-          1: "Core (Cindy)",
-          2: "Body Combat (Cindy)",
-          3: "Core (Cindy)",
-          4: "Body Combat (Cindy)",
-          5: "Core (Cindy)",
-        },
-      },
-      {
-        hora: "16:00",
-        start: 16 * 60,
-        end: 17 * 60,
-        days: {
-          1: "Kick Boxing (Niños)",
-          3: "Kick Boxing (Niños)",
-          5: "Kick Boxing (Niños)",
-        },
-      },
-      {
-        hora: "17:00",
-        start: 17 * 60,
-        end: 18 * 60,
-        days: { 2: "Comercial Dance (Ana)", 4: "Comercial Dance (Ana)" },
-      },
-      {
-        hora: "18:00",
-        start: 18 * 60,
-        end: 19 * 60,
-        days: {
-          1: "Body Combat (Cindy)",
-          2: "Zumba (Brandon)",
-          3: "Body Combat (Cindy)",
-          4: "Core (Cindy)",
-          5: "Zumba (Brandon)",
-        },
-      },
-      {
-        hora: "19:10",
-        start: 19 * 60 + 10,
-        end: 20 * 60 + 10,
-        days: {
-          1: "Vinyasa Yoga (Karenine)",
-          2: "Hatha Yoga (Gabriela)",
-          3: "Yoga Progresivo (Gabriela)",
-          4: "Yoga Flow (Gabriela)",
-          5: "Body Combat (Cindy)",
-        },
-      },
-    ];
-
-    let activeClass: string | null = null;
-    let activeHora: string | null = null;
+    let activeClass = null;
+    let activeHora = null;
 
     classSlots.forEach((slot) => {
       if (
@@ -820,8 +655,8 @@ export const grillaSalon = [
       }
     });
 
-    let nextClass: string | null = null;
-    let nextHora: string | null = null;
+    let nextClass = null;
+    let nextHora = null;
     classSlots.forEach((slot) => {
       if (!nextClass && totalMinutes < slot.start && slot.days[currentDay]) {
         nextClass = slot.days[currentDay];
@@ -937,55 +772,7 @@ export const grillaSalon = [
   const mobileDayBtns = document.querySelectorAll(".mobile-day-btn");
   const mobileContainer = document.getElementById("mobile-classes-container");
 
-  const grillaDataDays: Record<
-    number,
-    Array<{ hora: string; clase: string }>
-  > = {
-    1: [
-      { hora: "10:10", clase: "Zumba (Brandon)" },
-      { hora: "11:10", clase: "Core (Cindy)" },
-      { hora: "16:00", clase: "Kick Boxing (Niños)" },
-      { hora: "18:00", clase: "Body Combat (Cindy)" },
-      { hora: "19:10", clase: "Vinyasa Yoga (Karenine)" },
-    ],
-    2: [
-      { hora: "09:00", clase: "Ashtanga Yoga (Marco)" },
-      { hora: "10:10", clase: "Pilates (Gabriela)" },
-      { hora: "11:10", clase: "Body Combat (Cindy)" },
-      { hora: "17:00", clase: "Comercial Dance (Ana)" },
-      { hora: "18:00", clase: "Zumba (Brandon)" },
-      { hora: "19:10", clase: "Hatha Yoga (Gabriela)" },
-    ],
-    3: [
-      { hora: "09:00", clase: "Ashtanga Yoga (Marco)" },
-      { hora: "10:10", clase: "Zumba (Brandon)" },
-      { hora: "11:10", clase: "Core (Cindy)" },
-      { hora: "16:00", clase: "Kick Boxing (Niños)" },
-      { hora: "18:00", clase: "Body Combat (Cindy)" },
-      { hora: "19:10", clase: "Yoga Progresivo (Gabriela)" },
-    ],
-    4: [
-      { hora: "09:00", clase: "Ashtanga Yoga (Marco)" },
-      { hora: "10:10", clase: "Pilates (Gabriela)" },
-      { hora: "11:10", clase: "Body Combat (Cindy)" },
-      { hora: "17:00", clase: "Comercial Dance (Ana)" },
-      { hora: "18:00", clase: "Core (Cindy)" },
-      { hora: "19:10", clase: "Yoga Flow (Gabriela)" },
-    ],
-    5: [
-      { hora: "07:30", clase: "Vinyasa Yoga (Karenine)" },
-      { hora: "11:10", clase: "Core (Cindy)" },
-      { hora: "16:00", clase: "Kick Boxing (Niños)" },
-      { hora: "18:00", clase: "Zumba (Brandon)" },
-      { hora: "19:10", clase: "Body Combat (Cindy)" },
-    ],
-    6: [
-      { hora: "09:00", clase: "Body Combat (Cindy)" },
-      { hora: "10:10", clase: "Vinyasa Yoga (Karenine 10:30)" },
-    ],
-  };
-
-  function renderMobileDaySchedule(dayIndex: number) {
+  function renderMobileDaySchedule(dayIndex) {
     if (!mobileContainer) return;
     const classes = grillaDataDays[dayIndex] || [];
 
@@ -1055,7 +842,6 @@ export const grillaSalon = [
                     <span class="text-[10px] text-accent font-medium uppercase tracking-widest block">● En Curso Ahora</span>
                   </div>
                 </div>
-                <span class="text-[9px] uppercase tracking-wider px-2.5 py-1 bg-accent text-bg font-bold rounded animate-pulse">En Vivo</span>
               </div>
             `;
           }
@@ -1096,7 +882,7 @@ export const grillaSalon = [
     planDots.forEach((dot) => {
       dot.addEventListener("click", () => {
         const idx = Number(dot.getAttribute("data-plan-dot"));
-        const card = plansCarousel.children[idx] as HTMLElement;
+        const card = plansCarousel.children[idx];
         if (card) {
           const scrollOffset =
             card.offsetLeft -
@@ -1112,7 +898,7 @@ export const grillaSalon = [
     plansCarousel.addEventListener(
       "scroll",
       () => {
-        const cards = Array.from(plansCarousel.children) as HTMLElement[];
+        const cards = Array.from(plansCarousel.children);
         const containerCenter =
           plansCarousel.scrollLeft + plansCarousel.clientWidth / 2;
 
@@ -1147,7 +933,7 @@ export const grillaSalon = [
     if (!plansCarousel || window.innerWidth >= 640) return;
     const connectCard = plansCarousel.querySelector(
       '[data-plan-name="PLAN CONNECT"]',
-    ) as HTMLElement;
+    );
     if (connectCard) {
       const scrollOffset =
         connectCard.offsetLeft -

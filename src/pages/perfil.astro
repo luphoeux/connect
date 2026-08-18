@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Mi Perfil">
-  <main class="relative min-h-screen pt-24 pb-20 px-4 sm:px-6 max-w-5xl mx-auto">
+  <div class="relative min-h-screen pt-24 pb-20 px-4 sm:px-6 max-w-5xl mx-auto">
     <!-- Loading State -->
     <div id="loading-state" class="text-center py-20">
       <div class="inline-block w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin mb-4"></div>
@@ -145,7 +145,7 @@ import Layout from "../layouts/Layout.astro";
 
         <!-- QR Modal Overlay -->
         <div id="qr-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
-          <div class="relative bg-[#121212] border border-white/15 shadow-2xl p-8 text-center max-w-sm w-full">
+          <div class="relative bg-bg border border-white/15 shadow-2xl p-8 text-center max-w-sm w-full">
             <button id="qr-modal-close" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-text-muted hover:text-white bg-white/5 hover:bg-white/10 transition-colors">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -153,34 +153,15 @@ import Layout from "../layouts/Layout.astro";
             </button>
             <h2 class="text-sm uppercase tracking-[0.2em] font-medium text-text mb-6">Pase Rápido de Ingreso</h2>
             <div class="p-4 bg-white rounded-lg shadow-lg mb-4 inline-block">
-              <svg class="w-44 h-44" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="100" height="100" fill="white" />
-                <rect x="5" y="5" width="30" height="30" fill="black" />
-                <rect x="10" y="10" width="20" height="20" fill="white" />
-                <rect x="15" y="15" width="10" height="10" fill="black" />
-                <rect x="65" y="5" width="30" height="30" fill="black" />
-                <rect x="70" y="10" width="20" height="20" fill="white" />
-                <rect x="75" y="15" width="10" height="10" fill="black" />
-                <rect x="5" y="65" width="30" height="30" fill="black" />
-                <rect x="10" y="70" width="20" height="20" fill="white" />
-                <rect x="15" y="75" width="10" height="10" fill="black" />
-                <rect x="40" y="10" width="10" height="10" fill="black" />
-                <rect x="50" y="20" width="10" height="20" fill="black" />
-                <rect x="40" y="40" width="20" height="20" fill="black" />
-                <rect x="70" y="45" width="15" height="15" fill="black" />
-                <rect x="45" y="70" width="15" height="20" fill="black" />
-                <rect x="70" y="75" width="20" height="15" fill="black" />
-              </svg>
+              <canvas id="qr-canvas" class="w-44 h-44" aria-label="Código QR de acceso" role="img"></canvas>
             </div>
-            <p class="text-text-muted text-[11px] uppercase tracking-widest mb-1">Escaneá en torniquetes de acceso</p>
+            <p class="text-text-muted text-[11px] uppercase tracking-widest mb-1">Escanea en torniquetes de acceso</p>
             <p id="qr-user-label" class="text-accent text-xs font-medium"></p>
           </div>
         </div>
-
-      </div>
       </div>
     </div>
-  </main>
+  </div>
 </Layout>
 
 <script>
@@ -226,13 +207,34 @@ import Layout from "../layouts/Layout.astro";
   const qrModalClose = document.getElementById("qr-modal-close");
   const qrBtn = document.getElementById("qr-btn");
   const qrUserLabel = document.getElementById("qr-user-label");
+  const qrCanvas = document.getElementById("qr-canvas") as HTMLCanvasElement;
 
-  qrBtn?.addEventListener("click", () => {
-    if (qrModal) {
-      qrModal.classList.remove("opacity-0", "pointer-events-none");
-      if (qrUserLabel) {
+  qrBtn?.addEventListener("click", async () => {
+    if (!qrModal) return;
+    qrModal.classList.remove("opacity-0", "pointer-events-none");
+    if (qrUserLabel) {
+      const u = JSON.parse(localStorage.getItem("connect_user") || "{}");
+      qrUserLabel.textContent = `${u.nombre || "Socio"} — CI: ${u.ci || "--"}`;
+    }
+    // Generar QR real con los datos del socio (escaneable en recepción)
+    if (qrCanvas) {
+      try {
+        const { default: QRCode } = await import("qrcode");
         const u = JSON.parse(localStorage.getItem("connect_user") || "{}");
-        qrUserLabel.textContent = `${u.nombre || "Socio"} — CI: ${u.ci || "--"}`;
+        const payload = JSON.stringify({
+          t: "connect-member",
+          ci: u.ci || "",
+          n: u.nombre || "",
+          p: u.plan || "",
+        });
+        await QRCode.toCanvas(qrCanvas, payload, {
+          width: 176,
+          margin: 1,
+          errorCorrectionLevel: "M",
+          color: { dark: "#000000", light: "#ffffff" },
+        });
+      } catch {
+        if (qrUserLabel) qrUserLabel.textContent = "No se pudo generar el código QR";
       }
     }
   });

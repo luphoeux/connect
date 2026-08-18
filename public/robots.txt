@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://connect-health-fitness.vercel.app/sitemap.xml

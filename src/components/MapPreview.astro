@@ -1,0 +1,45 @@
+---
+// Componente de preview del mapa para la página principal
+---
+
+<section id="mapa" class="pt-8 sm:pt-12 pb-8 sm:pb-12 px-4 sm:px-6 max-w-7xl mx-auto scroll-mt-24 relative z-20">
+  <div class="bg-surface/90 border border-white/10 p-1 backdrop-blur-xl relative overflow-hidden group hover:border-accent/40 transition-colors duration-500 shadow-2xl">
+    
+    <!-- Abstract Map Grid Background -->
+    <div class="absolute inset-0 opacity-20 pointer-events-none group-hover:opacity-30 transition-opacity duration-500" style="background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.2) 1px, transparent 0); background-size: 32px 32px;">
+      <div class="absolute inset-0 bg-gradient-to-r from-bg via-transparent to-bg pointer-events-none"></div>
+    </div>
+    
+    <!-- Decorative Glow -->
+    <div class="absolute -right-20 -top-20 w-80 h-80 bg-accent/10 rounded-full blur-3xl pointer-events-none group-hover:bg-accent/20 transition-colors duration-700"></div>
+
+    <div class="relative z-30 flex flex-col md:flex-row items-center justify-between p-8 sm:p-12 gap-8 text-center md:text-left bg-black/40 border border-white/5 pointer-events-auto">
+      <div class="max-w-2xl">
+        <h3 class="text-xs uppercase tracking-[0.25em] font-medium text-accent flex items-center justify-center md:justify-start gap-3 mb-4">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z" />
+          </svg>
+          <span>Instalaciones Connect</span>
+        </h3>
+        <h2 class="text-3xl sm:text-4xl font-light tracking-[0.1em] text-text uppercase mb-4">
+          Explora el <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-accent to-orange-300">Gimnasio</span>
+        </h2>
+        <p class="text-text-muted font-light leading-relaxed max-w-xl text-sm sm:text-base">
+          Navega por nuestro mapa interactivo y descubre la distribución de las máquinas, salones, áreas funcionales y vestuarios. Todo lo que necesitas para tu entrenamiento en Connect Sur HQ.
+        </p>
+      </div>
+
+      <div class="flex-shrink-0 relative z-50">
+        <a
+          href="/mapa"
+          class="relative inline-flex items-center gap-3 px-8 py-4 bg-accent hover:bg-accent/90 text-bg uppercase text-xs tracking-[0.2em] font-bold transition-all duration-300 shadow-xl hover:shadow-[0_0_30px_rgba(230,136,66,0.3)] hover:-translate-y-1 z-50 pointer-events-auto"
+        >
+          <span>Abrir Mapa Interactivo</span>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
