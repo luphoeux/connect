@@ -511,8 +511,10 @@ import { NOTIFICACIONES } from "../lib/notificaciones";
   // Close drawer when clicking any link inside it (hash links keep the URL on the same page)
   document.querySelectorAll("#mobile-hamburger-drawer a").forEach((link) => {
     link.addEventListener("click", () => {
-      hamburgerDrawer?.classList.remove("flex");
-      hamburgerDrawer?.classList.add("hidden");
+      setTimeout(() => {
+        hamburgerDrawer?.classList.remove("flex");
+        hamburgerDrawer?.classList.add("hidden");
+      }, 150);
     });
   });
 
